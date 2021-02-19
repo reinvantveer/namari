@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/namari" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>

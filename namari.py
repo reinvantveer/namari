@@ -24,12 +24,15 @@
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
-# Initialize Qt resources from file resources.py
-from .resources import *
+
+from .resources import qInitResources
 
 # Import the code for the DockWidget
 from .namari_dockwidget import NamariDockWidget
 import os.path
+
+# Initialize Qt resources from file resources.py
+qInitResources()
 
 
 class Namari:
@@ -68,11 +71,8 @@ class Namari:
         self.toolbar = self.iface.addToolBar(u'Namari')
         self.toolbar.setObjectName(u'Namari')
 
-        #print "** INITIALIZING Namari"
-
         self.pluginIsActive = False
         self.dockwidget = None
-
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -88,7 +88,6 @@ class Namari:
         """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
         return QCoreApplication.translate('Namari', message)
-
 
     def add_action(
         self,

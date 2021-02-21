@@ -24,6 +24,7 @@
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
+from qgis.core import QgsMapLayerProxyModel
 
 from .resources import qInitResources
 
@@ -162,7 +163,6 @@ class Namari:
 
         return action
 
-
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
@@ -173,7 +173,7 @@ class Namari:
             callback=self.run,
             parent=self.iface.mainWindow())
 
-    #--------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
     def onClosePlugin(self):
         """Cleanup necessary items here when plugin dockwidget is closed"""
@@ -191,11 +191,8 @@ class Namari:
 
         self.pluginIsActive = False
 
-
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
-
-        #print "** UNLOAD Namari"
 
         for action in self.actions:
             self.iface.removePluginVectorMenu(
@@ -205,15 +202,13 @@ class Namari:
         # remove the toolbar
         del self.toolbar
 
-    #--------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
 
     def run(self):
         """Run method that loads and starts the plugin"""
 
         if not self.pluginIsActive:
             self.pluginIsActive = True
-
-            #print "** STARTING Namari"
 
             # dockwidget may not exist if:
             #    first run of plugin
@@ -229,3 +224,6 @@ class Namari:
             # TODO: fix to allow choice of dock location
             self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dockwidget)
             self.dockwidget.show()
+
+            # Set the layer type filter - unfortunately this is broken in the Qt designer for QGIS 3.16
+            self.dockwidget.mMapLayerComboBox.setFilters(QgsMapLayerProxyModel.VectorLayer)

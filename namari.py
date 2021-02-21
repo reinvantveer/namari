@@ -213,7 +213,7 @@ class Namari:
             # dockwidget may not exist if:
             #    first run of plugin
             #    removed on close (see self.onClosePlugin method)
-            if self.dockwidget == None:
+            if self.dockwidget is None:
                 # Create the dockwidget (after translation) and keep reference
                 self.dockwidget = NamariDockWidget()
 
@@ -227,3 +227,8 @@ class Namari:
 
             # Set the layer type filter - unfortunately this is broken in the Qt designer for QGIS 3.16
             self.dockwidget.mMapLayerComboBox.setFilters(QgsMapLayerProxyModel.VectorLayer)
+            self.dockwidget.pushButtonBuildModel.clicked.connect(self.buildModel)
+
+    def buildModel(self) -> None:
+        print("Building model")
+

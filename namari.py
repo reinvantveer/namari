@@ -227,7 +227,14 @@ class Namari:
 
             # Set the layer type filter - unfortunately this is broken in the Qt designer for QGIS 3.16
             self.dockwidget.mMapLayerComboBox.setFilters(QgsMapLayerProxyModel.VectorLayer)
+
+            # Bind an event handler invoked when the layer changes
+            self.dockwidget.mMapLayerComboBox.layerChanged.connect(self.layer_changed)
+
             self.dockwidget.pushButtonBuildModel.clicked.connect(self.buildModel)
+
+    def layer_changed(self) -> None:
+        print("Layer changed")
 
     def buildModel(self) -> None:
         print("Building model")

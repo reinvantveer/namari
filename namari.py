@@ -234,8 +234,11 @@ class Namari:
             self.dockwidget.pushButtonBuildModel.clicked.connect(self.buildModel)
 
     def layer_changed(self) -> None:
-        print(f"Layer changed: {self.dockwidget.mMapLayerComboBox.currentLayer()}")
-        self.dockwidget.pushButtonBuildModel.setEnabled(True)
+        layer = self.dockwidget.mMapLayerComboBox.currentLayer()
+        print(f"Layer changed: {layer}")
+
+        if layer is not None:
+            self.dockwidget.pushButtonBuildModel.setEnabled(True)
 
     def buildModel(self) -> None:
         print("Building model")

@@ -211,6 +211,7 @@ class Namari:
             import sklearn
         except ImportError:
             print('Unable to load scikit-learn')
+            return
 
         if not self.pluginIsActive:
             self.pluginIsActive = True

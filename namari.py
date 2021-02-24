@@ -28,8 +28,6 @@ from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
 from qgis.core import QgsMapLayerProxyModel
 
-import sklearn
-
 from .resources import qInitResources
 
 # Import the code for the DockWidget
@@ -42,7 +40,7 @@ qInitResources()
 class Namari:
     """QGIS Plugin Implementation."""
 
-    def __init__(self, iface):
+    def __init__(self, iface) -> None:
         """Constructor.
 
         :param iface: An interface instance that will be passed to this class
@@ -50,6 +48,7 @@ class Namari:
             application at run time.
         :type iface: QgsInterface
         """
+
         # Save reference to the QGIS interface
         self.iface = iface
 
@@ -205,8 +204,13 @@ class Namari:
         # remove the toolbar
         del self.toolbar
 
-    def run(self):
+    def run(self) -> None:
         """Run method that loads and starts the plugin"""
+        # First, try to load the machine learning dependency
+        try:
+            import sklearn
+        except ImportError:
+            print('Unable to load scikit-learn')
 
         if not self.pluginIsActive:
             self.pluginIsActive = True
@@ -232,6 +236,7 @@ class Namari:
             # Bind an event handler invoked when the layer changes
             self.dockwidget.mMapLayerComboBox.layerChanged.connect(self.layer_changed)
 
+            # Bind event handler for clicking the "build model" button
             self.dockwidget.pushButtonBuildModel.clicked.connect(self.buildModel)
 
     def layer_changed(self) -> None:

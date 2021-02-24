@@ -21,16 +21,19 @@
  *                                                                         *
  ***************************************************************************/
 """
+import os.path
+
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
 from qgis.core import QgsMapLayerProxyModel
 
+import sklearn
+
 from .resources import qInitResources
 
 # Import the code for the DockWidget
 from .namari_dockwidget import NamariDockWidget
-import os.path
 
 # Initialize Qt resources from file resources.py
 qInitResources()

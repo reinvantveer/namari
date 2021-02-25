@@ -21,11 +21,13 @@
  *                                                                         *
  ***************************************************************************/
 """
+import configparser
 import os.path
+import sys
 
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction
+from qgis.PyQt.QtWidgets import QAction, QMessageBox
 from qgis.core import QgsMapLayerProxyModel
 
 from .resources import qInitResources
@@ -210,7 +212,7 @@ class Namari:
         try:
             import sklearn
         except ImportError:
-            print('Unable to load scikit-learn')
+            self.reportMissingDependency()
             return
 
         if not self.pluginIsActive:
@@ -239,6 +241,31 @@ class Namari:
 
             # Bind event handler for clicking the "build model" button
             self.dockwidget.pushButtonBuildModel.clicked.connect(self.buildModel)
+
+    def reportMissingDependency(self):
+        """
+        Reports that one of the dependencies for the project could not be loaded.
+
+        :return:
+        """
+        python_location = sys.executable
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        print(dir_path)
+        config = configparser.ConfigParser()
+        config.read(os.path.join(dir_path, 'metadata.txt'))
+        dependencies = config['general']['plugin_dependencies']
+
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText("Unable to load scikit-learn")
+        message = 'You can install with:\n\n' + \
+            '{}'.format(python_location) + \
+            ' -m pip install {}\n\n'.format(dependencies) + \
+            'You can copy-paste this command into a console, and then restart QGIS.'
+
+        msg.setInformativeText(message)
+        msg.setWindowTitle("Error")
+        msg.exec_()
 
     def layer_changed(self) -> None:
         layer = self.dockwidget.mMapLayerComboBox.currentLayer()

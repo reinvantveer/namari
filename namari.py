@@ -24,6 +24,7 @@
 import configparser
 import os.path
 import sys
+import time
 
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
@@ -276,4 +277,16 @@ class Namari:
 
     def buildModel(self) -> None:
         print("Building model")
+        layer = self.dockwidget.mMapLayerComboBox.currentLayer()
+        features = layer.getFeatures()
 
+        feature_counter = layer.countSymbolFeatures()
+
+        # When the features have already been counted, the feature counter will be None
+        # See https://qgis.org/pyqgis/master/core/QgsVectorLayer.html#qgis.core.QgsVectorLayer.countSymbolFeatures
+        if feature_counter is not None:
+            feature_counter.waitForFinished()
+
+        print(f'{layer.featureCount()} features')
+
+        return

@@ -21,20 +21,17 @@
  *                                                                         *
  ***************************************************************************/
 """
-import configparser
 import os.path
-import sys
-import time
 
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction, QMessageBox
+from qgis.PyQt.QtWidgets import QAction
 from qgis.core import QgsMapLayerProxyModel
 
-from .resources import qInitResources
-
 # Import the code for the DockWidget
+from .messaging.dependencies import report_missing_dependency
 from .namari_dockwidget import NamariDockWidget
+from .resources import qInitResources
 
 # Initialize Qt resources from file resources.py
 qInitResources()
@@ -213,7 +210,7 @@ class Namari:
         try:
             import sklearn
         except ImportError:
-            self.reportMissingDependency()
+            report_missing_dependency()
             return
 
         if not self.pluginIsActive:
@@ -243,30 +240,7 @@ class Namari:
             # Bind event handler for clicking the "build model" button
             self.dockwidget.pushButtonBuildModel.clicked.connect(self.buildModel)
 
-    def reportMissingDependency(self):
-        """
-        Reports that one of the dependencies for the project could not be loaded.
-
-        :return:
-        """
-        python_location = sys.executable
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        print(dir_path)
-        config = configparser.ConfigParser()
-        config.read(os.path.join(dir_path, 'metadata.txt'))
-        dependencies = config['general']['plugin_dependencies']
-
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Critical)
-        msg.setText("Unable to load scikit-learn")
-        message = 'You can install with:\n\n' + \
-            '{}'.format(python_location) + \
-            ' -m pip install {}\n\n'.format(dependencies) + \
-            'You can copy-paste this command into a console, and then restart QGIS.'
-
-        msg.setInformativeText(message)
-        msg.setWindowTitle("Error")
-        msg.exec_()
+            self.layer_changed()
 
     def layer_changed(self) -> None:
         layer = self.dockwidget.mMapLayerComboBox.currentLayer()

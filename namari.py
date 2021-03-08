@@ -235,14 +235,14 @@ class Namari:
             self.dockwidget.mMapLayerComboBox.setFilters(QgsMapLayerProxyModel.VectorLayer)
 
             # Bind an event handler invoked when the layer changes
-            self.dockwidget.mMapLayerComboBox.layerChanged.connect(self.layer_changed)
+            self.dockwidget.mMapLayerComboBox.layerChanged.connect(self.layerChanged)
 
             # Bind event handler for clicking the "build model" button
             self.dockwidget.pushButtonBuildModel.clicked.connect(self.buildModel)
 
-            self.layer_changed()
+            self.layerChanged()
 
-    def layer_changed(self) -> None:
+    def layerChanged(self) -> None:
         layer = self.dockwidget.mMapLayerComboBox.currentLayer()
         print(f"Layer changed: {layer}")
 

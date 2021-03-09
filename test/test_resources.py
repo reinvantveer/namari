@@ -10,12 +10,11 @@
 
 __author__ = 'rein@vantveer.me'
 __date__ = '2021-02-19'
-__copyright__ = 'Copyright 2021, Rein van 't Veer'
+__copyright__ = 'Copyright 2021, Rein van \'t Veer'
 
 import unittest
 
 from qgis.PyQt.QtGui import QIcon
-
 
 
 class NamariDialogTest(unittest.TestCase):
@@ -35,10 +34,12 @@ class NamariDialogTest(unittest.TestCase):
         icon = QIcon(path)
         self.assertFalse(icon.isNull())
 
+
+class NamariResourcesTest(object):
+    pass
+
+
 if __name__ == "__main__":
     suite = unittest.makeSuite(NamariResourcesTest)
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
-
-
-

@@ -10,14 +10,12 @@
 
 __author__ = 'rein@vantveer.me'
 __date__ = '2021-02-19'
-__copyright__ = 'Copyright 2021, Rein van 't Veer'
+__copyright__ = 'Copyright 2021, Rein van \'t Veer'
 
 import unittest
 
-from qgis.PyQt.QtGui import QDockWidget
-
 from namari_dockwidget import NamariDockWidget
-
+from test.test_resources import NamariDialogTest
 from utilities import get_qgis_app
 
 QGIS_APP = get_qgis_app()
@@ -38,8 +36,8 @@ class NamariDockWidgetTest(unittest.TestCase):
         """Test we can click OK."""
         pass
 
+
 if __name__ == "__main__":
     suite = unittest.makeSuite(NamariDialogTest)
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
-

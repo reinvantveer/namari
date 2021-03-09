@@ -250,7 +250,7 @@ class Namari:
     def buildModel(self) -> None:
         print("Building model")
         layer = self.dockwidget.mMapLayerComboBox.currentLayer()
-        features = layer.getFeatures()
+        # features = layer.getFeatures()
 
         feature_counter = layer.countSymbolFeatures()
 

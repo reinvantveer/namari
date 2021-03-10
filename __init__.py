@@ -24,13 +24,16 @@
 """
 
 
-# noinspection PyPep8Naming
-def classFactory(iface):  # pylint: disable=invalid-name
-    """Load Namari class from file Namari.
+from qgis.gui import QgisInterface
+
+from .namari import Namari
+
+
+def classFactory(iface: QgisInterface) -> Namari:
+    """
+    Factory function for returning a Namari class instance from the Namari module: initializes the plugin.
 
     :param iface: A QGIS interface instance.
-    :type iface: QgsInterface
     """
-    #
-    from .namari import Namari
+
     return Namari(iface)

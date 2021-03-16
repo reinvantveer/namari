@@ -25,8 +25,8 @@ jobs:
       - name: Lint with flake8
         run: |
           # stop the build if there are Python syntax errors or undefined names
-          flake8 . --count --show-source --statistics
+          pipenv run flake8 . --count --show-source --statistics
       - name: Test with standard lib unittest
         run: |
           ls
-          python -m unittest discover .
+          pipenv run python -m unittest discover .

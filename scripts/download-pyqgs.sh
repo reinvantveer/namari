@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
 set -eux pipefail
 
-IMAGE=qgis/qgis
-TAG=release-3_18
-
-TARGET_DIR=~/.local/qgis-build-output
-SRC_DIR=/QGIS/build/output
 
 # Pull a pre-compiled version of QGIS from Docker hub
+IMAGE=qgis/qgis
+TAG=release-3_18
 docker pull ${IMAGE}:${TAG}
 
 # Run the image so that we can extract the compiled PyQGIS lib from it,
@@ -20,6 +17,8 @@ docker run \
   ${IMAGE}:${TAG} sh
 
 # Copy the contents of the QGIS python output dir to the target dir
+TARGET_DIR=~/.local/qgis-build-output
+SRC_DIR=/QGIS/build/output
 mkdir -p ${TARGET_DIR}
 xargs -I {} docker container cp -a "{}:${SRC_DIR}" - < .tmp-container-id > ${TARGET_DIR}/build-output.tar
 pushd ${TARGET_DIR} || exit

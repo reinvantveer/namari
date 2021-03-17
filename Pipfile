@@ -10,3 +10,4 @@ pyqt5 = "*"
 [dev-packages]
 pb-tool = "*"
 flake8 = "*"
+importlib-metadata = {python = "<3.8"}

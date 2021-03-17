@@ -13,21 +13,46 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pipenv
           pipenv install --dev --deploy
           pipenv run pip list
+
       - name: Lint with flake8
         run: |
           # stop the build if there are Python syntax errors or undefined names
           pipenv run flake8 . --count --show-source --statistics
+
+      - name: Fetch pre-built QGIS python dependencies (by lack of a pypi pyqgis package)
+        run: |
+          # Fetch the pre-built QGIS image so we don't have to build ourselves
+          IMAGE=qgis/qgis
+          TAG=release-3_18
+          docker pull ${IMAGE}:${TAG}
+
+          # Run the image so that we can extract the compiled PyQGIS lib from it,
+          # store the container id in the file .tmp-container-id
+          docker run --rm --cidfile .tmp-container-id -d ${IMAGE}:${TAG} sh
+
+          # Copy the Python build output files to a tarball
+          TARGET_DIR=~/.local/qgis-build-output
+          SRC_DIR=/QGIS/build/output/python/qgis
+          mkdir -p ${TARGET_DIR}
+          xargs -I {} docker container cp -a "{}:${SRC_DIR}" - < .tmp-container-id > ${TARGET_DIR}/python-qgis.tar
+
+          # Unpack the tarball to the site-packages dir of the virtual environment
+          SITE_PACKAGES=$(pipenv --venv)/lib/python${{ matrix.python-version }}/site-packages
+          tar xf ${TARGET_DIR}/python-qgis.tar -C ${SITE_PACKAGES}
+          ls ${SITE_PACKAGES}
+
       - name: Test with standard lib unittest
         run: |
-          ls
           pipenv run python -m unittest discover .

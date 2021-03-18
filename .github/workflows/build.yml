@@ -33,7 +33,7 @@ jobs:
           # stop the build if there are Python syntax errors or undefined names
           pipenv run flake8 . --count --show-source --statistics
 
-      - name: Fetch pre-built QGIS python dependencies (by lack of a pypi pyqgis package)
+      - name: Fetch pre-built QGIS artifacts (by lack of a pypi pyqgis package)
         run: |
           # Fetch the pre-built QGIS image so we don't have to build ourselves
           IMAGE=qgis/qgis
@@ -50,13 +50,21 @@ jobs:
           mkdir -p ${TARGET_DIR}
           xargs -I {} docker container cp -a "{}:${SRC_DIR}" - < .tmp-container-id > ${TARGET_DIR}/python-qgis.tar
 
+          # Copy the shared lib build output files to a tarball
+          TARGET_DIR=~/.local/qgis-build-output
+          SRC_DIR=/QGIS/build/output/lib
+          xargs -I {} docker container cp -a "{}:${SRC_DIR}" - < .tmp-container-id > ${TARGET_DIR}/lib-qgis.tar
+
           # Stop the container, it's no longer needed
           xargs -I {} docker container stop "{}" < .tmp-container-id
 
-          # Unpack the tarball to the site-packages dir of the virtual environment
+          # Unpack the python stuff tarball to the site-packages dir of the virtual environment
           SITE_PACKAGES=$(pipenv --venv)/lib/python${{ matrix.python-version }}/site-packages
           tar xf ${TARGET_DIR}/python-qgis.tar -C ${SITE_PACKAGES}
-          ls ${SITE_PACKAGES}
+
+          # Unpack the lib stuff tarball to the lib dir of the virtual environment
+          LIB_DIR=$(pipenv --venv)/lib
+          tar xf ${TARGET_DIR}/python-qgis.tar -C ${LIB_DIR}
 
       - name: Test with standard lib unittest
         run: |

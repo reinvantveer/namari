@@ -63,8 +63,8 @@ jobs:
           tar xf ${TARGET_DIR}/python-qgis.tar -C ${SITE_PACKAGES}
 
           # Unpack the lib stuff tarball to the lib dir of the virtual environment
-          LIB_DIR=$(pipenv --venv)/lib
-          tar xf ${TARGET_DIR}/python-qgis.tar -C ${LIB_DIR}
+          export LD_LIBRARY_PATH=$(pipenv --venv)/lib
+          tar xf ${TARGET_DIR}/lib-qgis.tar -C ${LD_LIBRARY_PATH}
 
       - name: Test with standard lib unittest
         run: |

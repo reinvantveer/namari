@@ -5,7 +5,6 @@ name = "pypi"
 
 [packages]
 scikit-learn = "*"
-pyqt5 = "*"
 
 [dev-packages]
 pb-tool = "*"

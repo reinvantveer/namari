@@ -15,10 +15,7 @@ __copyright__ = ('Copyright 2012, Australia Indonesia Facility for '
 
 import os
 import unittest
-from qgis.core import (
-    QgsProviderRegistry,
-    QgsCoordinateReferenceSystem,
-    QgsRasterLayer)
+from qgis.core import QgsProviderRegistry, QgsCoordinateReferenceSystem, QgsRasterLayer
 
 from .utilities import get_qgis_app
 QGIS_APP = get_qgis_app()
@@ -33,7 +30,6 @@ class QGISTest(unittest.TestCase):
         r = QgsProviderRegistry.instance()
         self.assertIn('gdal', r.providerList())
         self.assertIn('ogr', r.providerList())
-        self.assertIn('postgres', r.providerList())
 
     def test_projection(self):
         """Test that QGIS properly parses a wkt string.
@@ -45,17 +41,11 @@ class QGISTest(unittest.TestCase):
             'PRIMEM["Greenwich",0.0],UNIT["Degree",'
             '0.0174532925199433]]')
         crs.createFromWkt(wkt)
-        auth_id = crs.authid()
-        expected_auth_id = 'EPSG:4326'
-        self.assertEqual(auth_id, expected_auth_id)
+        self.assertEqual(crs.authid(), 'EPSG:4326')
 
         # now test for a loaded layer
         path = os.path.join(os.path.dirname(__file__), 'tenbytenraster.asc')
         title = 'TestRaster'
         layer = QgsRasterLayer(path, title)
         auth_id = layer.crs().authid()
-        self.assertEqual(auth_id, expected_auth_id)
-
-
-if __name__ == '__main__':
-    unittest.main()
+        self.assertEqual(auth_id, 'OGC:CRS84')

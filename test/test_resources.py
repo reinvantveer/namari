@@ -33,13 +33,3 @@ class NamariDialogTest(unittest.TestCase):
         path = ':/plugins/Namari/icon.png'
         icon = QIcon(path)
         self.assertFalse(icon.isNull())
-
-
-class NamariResourcesTest(object):
-    pass
-
-
-if __name__ == "__main__":
-    suite = unittest.makeSuite(NamariResourcesTest)
-    runner = unittest.TextTestRunner(verbosity=2)
-    runner.run(suite)

@@ -12,13 +12,16 @@ __author__ = 'rein@vantveer.me'
 __date__ = '2021-02-19'
 __copyright__ = 'Copyright 2021, Rein van \'t Veer'
 
+import sys
 import unittest
 
+from PyQt5.QtWidgets import QApplication
+
 from namari_dockwidget import NamariDockWidget
-from test.test_resources import NamariDialogTest
-from utilities import get_qgis_app
+from test.utilities import get_qgis_app
 
 QGIS_APP = get_qgis_app()
+app = QApplication(sys.argv)
 
 
 class NamariDockWidgetTest(unittest.TestCase):
@@ -26,7 +29,7 @@ class NamariDockWidgetTest(unittest.TestCase):
 
     def setUp(self):
         """Runs before each test."""
-        self.dockwidget = NamariDockWidget(None)
+        self.dockwidget = NamariDockWidget()
 
     def tearDown(self):
         """Runs after each test."""
@@ -35,9 +38,3 @@ class NamariDockWidgetTest(unittest.TestCase):
     def test_dockwidget_ok(self):
         """Test we can click OK."""
         pass
-
-
-if __name__ == "__main__":
-    suite = unittest.makeSuite(NamariDialogTest)
-    runner = unittest.TextTestRunner(verbosity=2)
-    runner.run(suite)

@@ -1,4 +1,4 @@
-name: Python package
+name: Docker build
 
 on:
   push:
@@ -7,65 +7,10 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.6, 3.7, 3.8]
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install dependencies
+      - name: Run tests and checks by building the Docker image with build dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install pipenv
-          pipenv install --python ${{ matrix.python-version }} --dev --deploy
-          pipenv run pip list
-          # Show the virtual env lib dir
-          ls $(pipenv --venv)/lib
-
-      - name: Lint with flake8
-        run: |
-          # stop the build if there are Python syntax errors or undefined names
-          pipenv run flake8 . --count --show-source --statistics
-
-      - name: Fetch pre-built QGIS artifacts (by lack of a pypi pyqgis package)
-        run: |
-          # Fetch the pre-built QGIS image so we don't have to build ourselves
-          IMAGE=qgis/qgis
-          TAG=release-3_18
-          docker pull ${IMAGE}:${TAG}
-
-          # Run the image so that we can extract the compiled PyQGIS lib from it,
-          # store the container id in the file .tmp-container-id
-          docker run -it --rm --cidfile .tmp-container-id -d ${IMAGE}:${TAG} sh
-
-          # Copy the Python build output files to a tarball
-          TARGET_DIR=~/.local/qgis-build-output
-          SRC_DIR=/QGIS/build/output/python/qgis
-          mkdir -p ${TARGET_DIR}
-          xargs -I {} docker container cp -a "{}:${SRC_DIR}" - < .tmp-container-id > ${TARGET_DIR}/python-qgis.tar
-
-          # Copy the shared lib build output files to a tarball
-          TARGET_DIR=~/.local/qgis-build-output
-          SRC_DIR=/QGIS/build/output/lib
-          xargs -I {} docker container cp -a "{}:${SRC_DIR}" - < .tmp-container-id > ${TARGET_DIR}/lib-qgis.tar
-
-          # Stop the container, it's no longer needed
-          xargs -I {} docker container stop "{}" < .tmp-container-id
-
-          # Unpack the python stuff tarball to the site-packages dir of the virtual environment
-          SITE_PACKAGES=$(pipenv --venv)/lib/python${{ matrix.python-version }}/site-packages
-          tar xf ${TARGET_DIR}/python-qgis.tar -C ${SITE_PACKAGES}
-
-          # Unpack the lib stuff tarball to the lib dir of the virtual environment
-          export LD_LIBRARY_PATH=$(pipenv --venv)/lib
-          tar xf ${TARGET_DIR}/lib-qgis.tar -C ${LD_LIBRARY_PATH}
-
-      - name: Test with standard lib unittest
-        run: |
-          pipenv run python -m unittest discover .
+          docker build .

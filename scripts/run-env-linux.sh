@@ -1,6 +1,6 @@
 #!/bin/bash
 
-QGIS_PREFIX_PATH=/usr/local/qgis-2.0
+QGIS_PREFIX_PATH=~/.local/share/QGIS/QGIS3
 if [ -n "$1" ]; then
     QGIS_PREFIX_PATH=$1
 fi

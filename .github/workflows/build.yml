@@ -1,16 +1,12 @@
 name: Docker build
 
-on:
-  push:
+on: [push, pull_request]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
-
       - name: Run tests and checks by building the Docker image with build dependencies
         run: |
           docker build .

@@ -18,9 +18,7 @@ import unittest
 from PyQt5.QtWidgets import QApplication
 
 from namari_dockwidget import NamariDockWidget
-from test.utilities import get_qgis_app
 
-QGIS_APP, CANVAS, IFACE, PARENT = get_qgis_app()
 app = QApplication(sys.argv)
 
 
@@ -35,12 +33,6 @@ class NamariDockWidgetTest(unittest.TestCase):
         """Runs after each test."""
         self.dockwidget = None
 
-    def test_present_QGIS_app(self):
-        self.assertIsNotNone(QGIS_APP)
-        self.assertIsNotNone(CANVAS)
-        # self.assertIsNotNone(IFACE)
-        # self.assertIsNotNone(PARENT)
-
     def test_dockwidget_layer_selector(self):
         with self.subTest('When we start the widget, there is no layer set'):
             layer = self.dockwidget.mMapLayerComboBox.currentLayer()
@@ -49,3 +41,6 @@ class NamariDockWidgetTest(unittest.TestCase):
         with self.subTest('So the "Build model" button is disabled'):
             enabled = self.dockwidget.pushButtonBuildModel.isEnabled()
             self.assertFalse(enabled)
+
+        with self.subTest('But when we load a vector data source'):
+            pass

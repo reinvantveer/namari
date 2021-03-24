@@ -1,5 +1,5 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis version="3.18.0-Zürich" saveUser="rein" saveDateTime="2021-03-24T20:56:16" projectname="" saveUserFull="rein">
+<qgis saveUserFull="rein" saveUser="rein" version="3.18.0-Zürich" projectname="" saveDateTime="2021-03-24T21:13:32">
   <homePath path=""/>
   <title></title>
   <autotransaction active="0"/>
@@ -20,21 +20,21 @@
   </projectCrs>
   <layer-tree-group>
     <customproperties/>
-    <layer-tree-layer patch_size="-1,-1" source="./data/amersfoort-centre.gpkg|layername=amersfoort-centre" checked="Qt::Checked" expanded="1" providerKey="ogr" legend_exp="" id="amersfoort_centre_19c6f13b_ef65_47ea_85ec_a282c8396938" name="amersfoort-centre" legend_split_behavior="0">
+    <layer-tree-layer name="amersfoort-centre" legend_exp="" expanded="1" legend_split_behavior="0" patch_size="-1,-1" source="./amersfoort-centre.gpkg|layername=amersfoort-centre" checked="Qt::Checked" id="amersfoort_centre_19c6f13b_ef65_47ea_85ec_a282c8396938" providerKey="ogr">
       <customproperties/>
     </layer-tree-layer>
     <custom-order enabled="0">
       <item>amersfoort_centre_19c6f13b_ef65_47ea_85ec_a282c8396938</item>
     </custom-order>
   </layer-tree-group>
-  <snapping-settings self-snapping="0" maxScale="0" type="1" intersection-snapping="0" minScale="0" mode="2" tolerance="12" enabled="0" unit="1" scaleDependencyMode="0">
+  <snapping-settings minScale="0" tolerance="12" mode="2" self-snapping="0" type="1" intersection-snapping="0" enabled="0" maxScale="0" scaleDependencyMode="0" unit="1">
     <individual-layer-settings>
-      <layer-setting maxScale="0" type="1" minScale="0" tolerance="12" units="1" id="amersfoort_centre_19c6f13b_ef65_47ea_85ec_a282c8396938" enabled="0"/>
+      <layer-setting minScale="0" tolerance="12" id="amersfoort_centre_19c6f13b_ef65_47ea_85ec_a282c8396938" units="1" type="1" enabled="0" maxScale="0"/>
     </individual-layer-settings>
   </snapping-settings>
   <relations/>
   <polymorphicRelations/>
-  <mapcanvas annotationsVisible="1" name="theMapCanvas">
+  <mapcanvas name="theMapCanvas" annotationsVisible="1">
     <units>meters</units>
     <extent>
       <xmin>154672.62604999999166466</xmin>
@@ -61,7 +61,7 @@
   </mapcanvas>
   <projectModels/>
   <legend updateDrawingOrder="true">
-    <legendlayer showFeatureCount="0" checked="Qt::Checked" open="true" name="amersfoort-centre" drawingOrder="-1">
+    <legendlayer name="amersfoort-centre" showFeatureCount="0" checked="Qt::Checked" drawingOrder="-1" open="true">
       <filegroup hidden="false" open="true">
         <legendlayerfile isInOverview="0" visible="1" layerid="amersfoort_centre_19c6f13b_ef65_47ea_85ec_a282c8396938"/>
       </filegroup>
@@ -69,7 +69,7 @@
   </legend>
   <mapViewDocks/>
   <mapViewDocks3D/>
-  <main-annotation-layer autoRefreshTime="0" autoRefreshEnabled="0" type="annotation" refreshOnNotifyMessage="" refreshOnNotifyEnabled="0">
+  <main-annotation-layer autoRefreshEnabled="0" autoRefreshTime="0" refreshOnNotifyMessage="" refreshOnNotifyEnabled="0" type="annotation">
     <id>Annotations_d5daf047_ea03_4289_8e5b_addc1af945fa</id>
     <datasource></datasource>
     <keywordList>
@@ -86,7 +86,7 @@
         <description></description>
         <projectionacronym></projectionacronym>
         <ellipsoidacronym></ellipsoidacronym>
-        <geographicflag>false</geographicflag>
+        <geographicflag>true</geographicflag>
       </spatialrefsys>
     </srs>
     <resourceMetadata>
@@ -109,7 +109,7 @@
           <description></description>
           <projectionacronym></projectionacronym>
           <ellipsoidacronym></ellipsoidacronym>
-          <geographicflag>false</geographicflag>
+          <geographicflag>true</geographicflag>
         </spatialrefsys>
       </crs>
       <extent/>
@@ -119,7 +119,7 @@
     <blendMode>0</blendMode>
   </main-annotation-layer>
   <projectlayers>
-    <maplayer styleCategories="AllStyleCategories" minScale="100000000" autoRefreshEnabled="0" labelsEnabled="0" geometry="Polygon" wkbType="Polygon" readOnly="0" refreshOnNotifyMessage="" simplifyMaxScale="1" refreshOnNotifyEnabled="0" autoRefreshTime="0" simplifyLocal="1" hasScaleBasedVisibilityFlag="0" type="vector" maxScale="0" simplifyAlgorithm="0" simplifyDrawingTol="1" simplifyDrawingHints="1">
+    <maplayer hasScaleBasedVisibilityFlag="0" wkbType="Polygon" simplifyLocal="1" type="vector" refreshOnNotifyMessage="" geometry="Polygon" autoRefreshEnabled="0" simplifyDrawingHints="1" simplifyDrawingTol="1" simplifyMaxScale="1" styleCategories="AllStyleCategories" refreshOnNotifyEnabled="0" labelsEnabled="0" simplifyAlgorithm="0" minScale="100000000" maxScale="0" readOnly="0" autoRefreshTime="0">
       <extent>
         <xmin>154698.85699999998905696</xmin>
         <ymin>462671.68800000002374873</ymin>
@@ -127,7 +127,7 @@
         <ymax>463603.66600000002654269</ymax>
       </extent>
       <id>amersfoort_centre_19c6f13b_ef65_47ea_85ec_a282c8396938</id>
-      <datasource>./data/amersfoort-centre.gpkg|layername=amersfoort-centre</datasource>
+      <datasource>./amersfoort-centre.gpkg|layername=amersfoort-centre</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -165,7 +165,7 @@
             <description></description>
             <projectionacronym></projectionacronym>
             <ellipsoidacronym></ellipsoidacronym>
-            <geographicflag>true</geographicflag>
+            <geographicflag>false</geographicflag>
           </spatialrefsys>
         </crs>
         <extent/>
@@ -185,52 +185,52 @@
         <Searchable>1</Searchable>
         <Private>0</Private>
       </flags>
-      <temporal durationField="" endExpression="" fixedDuration="0" endField="" accumulate="0" mode="0" startExpression="" startField="" enabled="0" durationUnit="min">
+      <temporal startField="" durationUnit="min" mode="0" endExpression="" startExpression="" fixedDuration="0" enabled="0" accumulate="0" endField="" durationField="">
         <fixedRange>
           <start></start>
           <end></end>
         </fixedRange>
       </temporal>
-      <renderer-v2 symbollevels="0" type="singleSymbol" forceraster="0" enableorderby="0">
+      <renderer-v2 forceraster="0" type="singleSymbol" symbollevels="0" enableorderby="0">
         <symbols>
-          <symbol clip_to_extent="1" force_rhr="0" type="fill" alpha="1" name="0">
+          <symbol name="0" force_rhr="0" type="fill" alpha="1" clip_to_extent="1">
             <data_defined_properties>
               <Option type="Map">
-                <Option type="QString" name="name" value=""/>
+                <Option name="name" value="" type="QString"/>
                 <Option name="properties"/>
-                <Option type="QString" name="type" value="collection"/>
+                <Option name="type" value="collection" type="QString"/>
               </Option>
             </data_defined_properties>
-            <layer pass="0" class="SimpleFill" enabled="1" locked="0">
+            <layer pass="0" class="SimpleFill" locked="0" enabled="1">
               <Option type="Map">
-                <Option type="QString" name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0"/>
-                <Option type="QString" name="color" value="133,182,111,255"/>
-                <Option type="QString" name="joinstyle" value="bevel"/>
-                <Option type="QString" name="offset" value="0,0"/>
-                <Option type="QString" name="offset_map_unit_scale" value="3x:0,0,0,0,0,0"/>
-                <Option type="QString" name="offset_unit" value="MM"/>
-                <Option type="QString" name="outline_color" value="35,35,35,255"/>
-                <Option type="QString" name="outline_style" value="solid"/>
-                <Option type="QString" name="outline_width" value="0.26"/>
-                <Option type="QString" name="outline_width_unit" value="MM"/>
-                <Option type="QString" name="style" value="solid"/>
+                <Option name="border_width_map_unit_scale" value="3x:0,0,0,0,0,0" type="QString"/>
+                <Option name="color" value="133,182,111,255" type="QString"/>
+                <Option name="joinstyle" value="bevel" type="QString"/>
+                <Option name="offset" value="0,0" type="QString"/>
+                <Option name="offset_map_unit_scale" value="3x:0,0,0,0,0,0" type="QString"/>
+                <Option name="offset_unit" value="MM" type="QString"/>
+                <Option name="outline_color" value="35,35,35,255" type="QString"/>
+                <Option name="outline_style" value="solid" type="QString"/>
+                <Option name="outline_width" value="0.26" type="QString"/>
+                <Option name="outline_width_unit" value="MM" type="QString"/>
+                <Option name="style" value="solid" type="QString"/>
               </Option>
-              <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
-              <prop v="133,182,111,255" k="color"/>
-              <prop v="bevel" k="joinstyle"/>
-              <prop v="0,0" k="offset"/>
-              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
-              <prop v="MM" k="offset_unit"/>
-              <prop v="35,35,35,255" k="outline_color"/>
-              <prop v="solid" k="outline_style"/>
-              <prop v="0.26" k="outline_width"/>
-              <prop v="MM" k="outline_width_unit"/>
-              <prop v="solid" k="style"/>
+              <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="color" v="133,182,111,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="35,35,35,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.26"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="solid"/>
               <data_defined_properties>
                 <Option type="Map">
-                  <Option type="QString" name="name" value=""/>
+                  <Option name="name" value="" type="QString"/>
                   <Option name="properties"/>
-                  <Option type="QString" name="type" value="collection"/>
+                  <Option name="type" value="collection" type="QString"/>
                 </Option>
               </data_defined_properties>
             </layer>
@@ -245,77 +245,77 @@
       <layerOpacity>1</layerOpacity>
       <geometryOptions geometryPrecision="0" removeDuplicateNodes="0">
         <activeChecks type="StringList">
-          <Option type="QString" value=""/>
+          <Option value="" type="QString"/>
         </activeChecks>
         <checkConfiguration/>
       </geometryOptions>
       <legend type="default-vector"/>
       <referencedLayers/>
       <fieldConfiguration>
-        <field configurationFlags="None" name="fid">
+        <field name="fid" configurationFlags="None">
           <editWidget type="">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
-        <field configurationFlags="None" name="gid">
+        <field name="gid" configurationFlags="None">
           <editWidget type="">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
-        <field configurationFlags="None" name="identificatie">
+        <field name="identificatie" configurationFlags="None">
           <editWidget type="">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
-        <field configurationFlags="None" name="bouwjaar">
+        <field name="bouwjaar" configurationFlags="None">
           <editWidget type="">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
-        <field configurationFlags="None" name="status">
+        <field name="status" configurationFlags="None">
           <editWidget type="">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
-        <field configurationFlags="None" name="gebruiksdoel">
+        <field name="gebruiksdoel" configurationFlags="None">
           <editWidget type="">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
-        <field configurationFlags="None" name="oppervlakte_min">
+        <field name="oppervlakte_min" configurationFlags="None">
           <editWidget type="">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
-        <field configurationFlags="None" name="oppervlakte_max">
+        <field name="oppervlakte_max" configurationFlags="None">
           <editWidget type="">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
-        <field configurationFlags="None" name="aantal_verblijfsobjecten">
+        <field name="aantal_verblijfsobjecten" configurationFlags="None">
           <editWidget type="">
             <config>
               <Option/>
             </config>
           </editWidget>
         </field>
-        <field configurationFlags="None" name="rdf_seealso">
+        <field name="rdf_seealso" configurationFlags="None">
           <editWidget type="">
             <config>
               <Option/>
@@ -324,58 +324,58 @@
         </field>
       </fieldConfiguration>
       <aliases>
-        <alias field="fid" index="0" name=""/>
-        <alias field="gid" index="1" name=""/>
-        <alias field="identificatie" index="2" name=""/>
-        <alias field="bouwjaar" index="3" name=""/>
-        <alias field="status" index="4" name=""/>
-        <alias field="gebruiksdoel" index="5" name=""/>
-        <alias field="oppervlakte_min" index="6" name=""/>
-        <alias field="oppervlakte_max" index="7" name=""/>
-        <alias field="aantal_verblijfsobjecten" index="8" name=""/>
-        <alias field="rdf_seealso" index="9" name=""/>
+        <alias name="" field="fid" index="0"/>
+        <alias name="" field="gid" index="1"/>
+        <alias name="" field="identificatie" index="2"/>
+        <alias name="" field="bouwjaar" index="3"/>
+        <alias name="" field="status" index="4"/>
+        <alias name="" field="gebruiksdoel" index="5"/>
+        <alias name="" field="oppervlakte_min" index="6"/>
+        <alias name="" field="oppervlakte_max" index="7"/>
+        <alias name="" field="aantal_verblijfsobjecten" index="8"/>
+        <alias name="" field="rdf_seealso" index="9"/>
       </aliases>
       <defaults>
-        <default expression="" field="fid" applyOnUpdate="0"/>
-        <default expression="" field="gid" applyOnUpdate="0"/>
-        <default expression="" field="identificatie" applyOnUpdate="0"/>
-        <default expression="" field="bouwjaar" applyOnUpdate="0"/>
-        <default expression="" field="status" applyOnUpdate="0"/>
-        <default expression="" field="gebruiksdoel" applyOnUpdate="0"/>
-        <default expression="" field="oppervlakte_min" applyOnUpdate="0"/>
-        <default expression="" field="oppervlakte_max" applyOnUpdate="0"/>
-        <default expression="" field="aantal_verblijfsobjecten" applyOnUpdate="0"/>
-        <default expression="" field="rdf_seealso" applyOnUpdate="0"/>
+        <default applyOnUpdate="0" field="fid" expression=""/>
+        <default applyOnUpdate="0" field="gid" expression=""/>
+        <default applyOnUpdate="0" field="identificatie" expression=""/>
+        <default applyOnUpdate="0" field="bouwjaar" expression=""/>
+        <default applyOnUpdate="0" field="status" expression=""/>
+        <default applyOnUpdate="0" field="gebruiksdoel" expression=""/>
+        <default applyOnUpdate="0" field="oppervlakte_min" expression=""/>
+        <default applyOnUpdate="0" field="oppervlakte_max" expression=""/>
+        <default applyOnUpdate="0" field="aantal_verblijfsobjecten" expression=""/>
+        <default applyOnUpdate="0" field="rdf_seealso" expression=""/>
       </defaults>
       <constraints>
-        <constraint constraints="3" exp_strength="0" unique_strength="1" field="fid" notnull_strength="1"/>
-        <constraint constraints="0" exp_strength="0" unique_strength="0" field="gid" notnull_strength="0"/>
-        <constraint constraints="0" exp_strength="0" unique_strength="0" field="identificatie" notnull_strength="0"/>
-        <constraint constraints="0" exp_strength="0" unique_strength="0" field="bouwjaar" notnull_strength="0"/>
-        <constraint constraints="0" exp_strength="0" unique_strength="0" field="status" notnull_strength="0"/>
-        <constraint constraints="0" exp_strength="0" unique_strength="0" field="gebruiksdoel" notnull_strength="0"/>
-        <constraint constraints="0" exp_strength="0" unique_strength="0" field="oppervlakte_min" notnull_strength="0"/>
-        <constraint constraints="0" exp_strength="0" unique_strength="0" field="oppervlakte_max" notnull_strength="0"/>
-        <constraint constraints="0" exp_strength="0" unique_strength="0" field="aantal_verblijfsobjecten" notnull_strength="0"/>
-        <constraint constraints="0" exp_strength="0" unique_strength="0" field="rdf_seealso" notnull_strength="0"/>
+        <constraint unique_strength="1" notnull_strength="1" exp_strength="0" constraints="3" field="fid"/>
+        <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="gid"/>
+        <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="identificatie"/>
+        <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="bouwjaar"/>
+        <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="status"/>
+        <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="gebruiksdoel"/>
+        <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="oppervlakte_min"/>
+        <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="oppervlakte_max"/>
+        <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="aantal_verblijfsobjecten"/>
+        <constraint unique_strength="0" notnull_strength="0" exp_strength="0" constraints="0" field="rdf_seealso"/>
       </constraints>
       <constraintExpressions>
-        <constraint desc="" exp="" field="fid"/>
-        <constraint desc="" exp="" field="gid"/>
-        <constraint desc="" exp="" field="identificatie"/>
-        <constraint desc="" exp="" field="bouwjaar"/>
-        <constraint desc="" exp="" field="status"/>
-        <constraint desc="" exp="" field="gebruiksdoel"/>
-        <constraint desc="" exp="" field="oppervlakte_min"/>
-        <constraint desc="" exp="" field="oppervlakte_max"/>
-        <constraint desc="" exp="" field="aantal_verblijfsobjecten"/>
-        <constraint desc="" exp="" field="rdf_seealso"/>
+        <constraint exp="" desc="" field="fid"/>
+        <constraint exp="" desc="" field="gid"/>
+        <constraint exp="" desc="" field="identificatie"/>
+        <constraint exp="" desc="" field="bouwjaar"/>
+        <constraint exp="" desc="" field="status"/>
+        <constraint exp="" desc="" field="gebruiksdoel"/>
+        <constraint exp="" desc="" field="oppervlakte_min"/>
+        <constraint exp="" desc="" field="oppervlakte_max"/>
+        <constraint exp="" desc="" field="aantal_verblijfsobjecten"/>
+        <constraint exp="" desc="" field="rdf_seealso"/>
       </constraintExpressions>
       <expressionfields/>
       <attributeactions>
-        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
       </attributeactions>
-      <attributetableconfig sortOrder="0" actionWidgetStyle="dropDown" sortExpression="">
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
         <columns/>
       </attributetableconfig>
       <conditionalstyles>
@@ -450,9 +450,9 @@
   </properties>
   <dataDefinedServerProperties>
     <Option type="Map">
-      <Option type="QString" name="name" value=""/>
+      <Option name="name" value="" type="QString"/>
       <Option name="properties"/>
-      <Option type="QString" name="type" value="collection"/>
+      <Option name="type" value="collection" type="QString"/>
     </Option>
   </dataDefinedServerProperties>
   <visibility-presets/>
@@ -502,7 +502,7 @@
   <Bookmarks/>
   <ProjectViewSettings UseProjectScales="0">
     <Scales/>
-    <DefaultViewExtent xmin="154364.66522805971908383" ymin="462648.38855000003241003" xmax="156082.28677194027113728" ymax="463626.96545000001788139">
+    <DefaultViewExtent xmin="154364.66522805971908383" ymax="463626.96545000001788139" ymin="462648.38855000003241003" xmax="156082.28677194027113728">
       <spatialrefsys>
         <wkt>PROJCRS["Amersfoort / RD New",BASEGEOGCRS["Amersfoort",DATUM["Amersfoort",ELLIPSOID["Bessel 1841",6377397.155,299.1528128,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4289]],CONVERSION["RD New",METHOD["Oblique Stereographic",ID["EPSG",9809]],PARAMETER["Latitude of natural origin",52.1561605555556,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",5.38763888888889,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["Scale factor at natural origin",0.9999079,SCALEUNIT["unity",1],ID["EPSG",8805]],PARAMETER["False easting",155000,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",463000,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["unknown"],AREA["Netherlands - onshore"],BBOX[50.75,3.2,53.7,7.22]],ID["EPSG",28992]]</wkt>
         <proj4>+proj=sterea +lat_0=52.1561605555556 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.2369,50.0087,465.658,-0.406857330322398,0.350732676542563,-1.8703473836068,4.0812 +units=m +no_defs</proj4>
@@ -516,18 +516,18 @@
       </spatialrefsys>
     </DefaultViewExtent>
   </ProjectViewSettings>
-  <ProjectTimeSettings timeStepUnit="h" frameRate="1" cumulativeTemporalRange="0" timeStep="1"/>
+  <ProjectTimeSettings timeStepUnit="h" timeStep="1" frameRate="1" cumulativeTemporalRange="0"/>
   <ProjectDisplaySettings>
     <BearingFormat id="bearing">
       <Option type="Map">
-        <Option type="QChar" name="decimal_separator" value=""/>
-        <Option type="int" name="decimals" value="6"/>
-        <Option type="int" name="direction_format" value="0"/>
-        <Option type="int" name="rounding_type" value="0"/>
-        <Option type="bool" name="show_plus" value="false"/>
-        <Option type="bool" name="show_thousand_separator" value="true"/>
-        <Option type="bool" name="show_trailing_zeros" value="false"/>
-        <Option type="QChar" name="thousand_separator" value=""/>
+        <Option name="decimal_separator" value="" type="QChar"/>
+        <Option name="decimals" value="6" type="int"/>
+        <Option name="direction_format" value="0" type="int"/>
+        <Option name="rounding_type" value="0" type="int"/>
+        <Option name="show_plus" value="false" type="bool"/>
+        <Option name="show_thousand_separator" value="true" type="bool"/>
+        <Option name="show_trailing_zeros" value="false" type="bool"/>
+        <Option name="thousand_separator" value="" type="QChar"/>
       </Option>
     </BearingFormat>
   </ProjectDisplaySettings>

@@ -41,7 +41,7 @@ class QGISTest(unittest.TestCase):
         self.assertEqual(crs.authid(), 'EPSG:4326')
 
         # now test for a loaded layer
-        path = os.path.join(os.path.dirname(__file__), 'tenbytenraster.asc')
+        path = os.path.join(os.path.dirname(__file__), 'data/tenbytenraster.asc')
         title = 'TestRaster'
         layer = QgsRasterLayer(path, title)
         auth_id = layer.crs().authid()

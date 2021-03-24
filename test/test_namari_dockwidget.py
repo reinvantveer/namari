@@ -12,14 +12,14 @@ __author__ = 'rein@vantveer.me'
 __date__ = '2021-02-19'
 __copyright__ = 'Copyright 2021, Rein van \'t Veer'
 
-import sys
 import unittest
 
-from PyQt5.QtWidgets import QApplication
+from qgis.core import QgsApplication, QgsVectorLayer
 
 from namari_dockwidget import NamariDockWidget
 
-app = QApplication(sys.argv)
+app = QgsApplication(argv=[], GUIenabled=True)
+app.initQgis()
 
 
 class NamariDockWidgetTest(unittest.TestCase):
@@ -43,4 +43,9 @@ class NamariDockWidgetTest(unittest.TestCase):
             self.assertFalse(enabled)
 
         with self.subTest('But when we load a vector data source'):
-            pass
+            layer = QgsVectorLayer(
+                path='test/data/amersfoort-centre.gpkg',
+                baseName='amersfoort-centre',
+                providerLib='ogr')
+
+            self.assertEqual(len(layer.fields()), 10)

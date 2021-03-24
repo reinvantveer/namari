@@ -18,15 +18,7 @@ from qgis.PyQt.QtGui import QIcon
 
 
 class NamariDialogTest(unittest.TestCase):
-    """Test rerources work."""
-
-    def setUp(self):
-        """Runs before each test."""
-        pass
-
-    def tearDown(self):
-        """Runs after each test."""
-        pass
+    """Test resources work."""
 
     def test_icon_png(self):
         """Test we can click OK."""

@@ -22,6 +22,7 @@
  ***************************************************************************/
 """
 import os.path
+from typing import List
 
 from qgis.PyQt.QtCore import QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
@@ -57,7 +58,7 @@ class Namari:
         self.plugin_dir = os.path.dirname(__file__)
 
         # Declare instance attributes
-        self.actions = []
+        self.actions: List[QAction] = []
         self.menu = self.tr(u'&Namari anomaly detector')
         # TODO: We are going to let the user set this up in a future iteration
         self.toolbar = self.iface.addToolBar(u'Namari')
@@ -146,6 +147,8 @@ class Namari:
                 # Create the dockwidget (after translation) and keep reference
                 self.dockwidget = NamariDockWidget()
 
+            assert self.dockwidget is not None
+
             # connect to provide cleanup on closing of dockwidget
             self.dockwidget.closingPlugin.connect(self.onClosePlugin)
 
@@ -166,6 +169,7 @@ class Namari:
             self.layerChanged()
 
     def layerChanged(self) -> None:
+        assert self.dockwidget is not None
         layer = self.dockwidget.mMapLayerComboBox.currentLayer()
         print(f"Layer changed: {layer}")
 
@@ -174,6 +178,7 @@ class Namari:
 
     def buildModel(self) -> None:
         print("Building model")
+        assert self.dockwidget is not None
         layer = self.dockwidget.mMapLayerComboBox.currentLayer()
         # features = layer.getFeatures()
 

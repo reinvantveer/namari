@@ -31,8 +31,7 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'namari_dockwidget_base.ui'))
 
 
-class NamariDockWidget(QtWidgets.QDockWidget, FORM_CLASS):
-
+class NamariDockWidget(QtWidgets.QDockWidget, FORM_CLASS):  # type: ignore
     closingPlugin = pyqtSignal()
 
     def __init__(self, parent=None):

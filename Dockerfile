@@ -10,3 +10,4 @@ ENV XDG_RUNTIME_DIR=/tmp
 COPY . ./
 RUN xvfb-run python3 -m unittest discover .
 RUN mypy --namespace-packages --explicit-package-bases .
+RUN flake8 .

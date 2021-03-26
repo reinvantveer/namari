@@ -11,3 +11,4 @@ pb-tool = "*"
 flake8 = "*"
 importlib-metadata = {python = "<3.8"}
 typing_extensions = {python = "<3.8"}
+mypy = "*"

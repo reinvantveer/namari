@@ -23,23 +23,19 @@ app.initQgis()
 
 
 class NamariDockWidgetTest(unittest.TestCase):
-    """Test dockwidget works."""
-
-    def setUp(self):
+    def setUp(self) -> None:
         """Runs before each test."""
-        self.dockwidget = NamariDockWidget()
+        self.dock_widget = NamariDockWidget()
 
-    def tearDown(self):
-        """Runs after each test."""
-        self.dockwidget = None
-
-    def test_dockwidget_layer_selector(self):
+    def test_dockwidget_layer_selector(self) -> None:
         with self.subTest('When we start the widget, there is no layer set'):
-            layer = self.dockwidget.mMapLayerComboBox.currentLayer()
+            self.assertTrue(self.dock_widget.isEnabled())
+
+            layer = self.dock_widget.mMapLayerComboBox.currentLayer()
             self.assertEqual(layer, None)
 
         with self.subTest('So the "Build model" button is disabled'):
-            enabled = self.dockwidget.pushButtonBuildModel.isEnabled()
+            enabled = self.dock_widget.pushButtonBuildModel.isEnabled()
             self.assertFalse(enabled)
 
         with self.subTest('But when we load a vector data source'):
@@ -49,3 +45,10 @@ class NamariDockWidgetTest(unittest.TestCase):
                 providerLib='ogr')
 
             self.assertEqual(len(layer.fields()), 10)
+
+            # Load the vector layer
+            self.dock_widget.iface.addMapLayer(layer)
+
+        with self.subTest('Then the build button is enabled'):
+            enabled = self.dock_widget.pushButtonBuildModel.isEnabled()
+            self.assertTrue(enabled)

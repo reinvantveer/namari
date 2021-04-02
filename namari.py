@@ -24,11 +24,12 @@
 import os.path
 from typing import List
 
-from qgis.PyQt.QtCore import QCoreApplication, Qt
+from qgis.PyQt.QtCore import QCoreApplication, Qt, QVariant
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction
+from qgis.PyQt.QtWidgets import QAction, QPushButton
+from qgis.core import QgsMapLayerProxyModel, QgsVectorLayer
 from qgis.gui import QgisInterface
-from qgis.core import QgsMapLayerProxyModel
+from sklearn.feature_extraction import DictVectorizer
 
 # Import the code for the DockWidget
 from .messaging.dependencies import report_missing_dependency
@@ -40,15 +41,12 @@ qInitResources()
 
 
 class Namari:
-    """QGIS Plugin Implementation."""
-
     def __init__(self, iface: QgisInterface) -> None:
         """Constructor.
 
         :param iface: An interface instance that will be passed to this class
             which provides the hook by which you can manipulate the QGIS
             application at run time.
-        :type iface: QgisInterface
         """
 
         # Save reference to the QGIS interface
@@ -169,26 +167,46 @@ class Namari:
             self.layerChanged()
 
     def layerChanged(self) -> None:
-        assert self.dockwidget is not None
-        layer = self.dockwidget.mMapLayerComboBox.currentLayer()
-        print(f"Layer changed: {layer}")
+        assert self.dockwidget is not None  # To please the type checker
+        layer: QgsVectorLayer = self.dockwidget.mMapLayerComboBox.currentLayer()
+        build_button: QPushButton = self.dockwidget.pushButtonBuildModel
 
         if layer is not None:
-            self.dockwidget.pushButtonBuildModel.setEnabled(True)
+            feature_counter = layer.countSymbolFeatures()
+
+            # When the features have already been counted, the feature counter will be None
+            # See https://qgis.org/pyqgis/master/core/QgsVectorLayer.html#qgis.core.QgsVectorLayer.countSymbolFeatures
+            if feature_counter is not None:
+                feature_counter.waitForFinished()
+
+            build_button.setText(f'Build model ({layer.featureCount()} features)')
+            build_button.setEnabled(True)
 
     def buildModel(self) -> None:
         print("Building model")
-        assert self.dockwidget is not None
-        layer = self.dockwidget.mMapLayerComboBox.currentLayer()
-        # features = layer.getFeatures()
+        assert self.dockwidget is not None    # To please the type checker
+        layer: QgsVectorLayer = self.dockwidget.mMapLayerComboBox.currentLayer()
+        features = layer.getFeatures()
+        field_names = [f.name() for f in layer.fields()]
+        vectorizer = DictVectorizer()
 
-        feature_counter = layer.countSymbolFeatures()
+        print(field_names)
 
-        # When the features have already been counted, the feature counter will be None
-        # See https://qgis.org/pyqgis/master/core/QgsVectorLayer.html#qgis.core.QgsVectorLayer.countSymbolFeatures
-        if feature_counter is not None:
-            feature_counter.waitForFinished()
+        feat_dicts = self.features_to_dicts(features, field_names)
+        print(feat_dicts[0])
 
-        print(f'{layer.featureCount()} features')
+        inputs = vectorizer.fit_transform(feat_dicts[:100])
 
-        return
+        print(f'inputs shape: {inputs.shape}')
+
+    def features_to_dicts(self, features, field_names):
+        feat_dicts = []
+
+        for f in features:
+            if f.isValid():
+                if QVariant in [type(d) for d in f]:
+                    continue
+                feat_dict = {field: f.attribute(field) for field in field_names}
+                feat_dicts.append(feat_dict)
+
+        return feat_dicts

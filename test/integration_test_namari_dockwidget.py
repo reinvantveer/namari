@@ -13,21 +13,29 @@ __date__ = '2021-02-19'
 __copyright__ = 'Copyright 2021, Rein van \'t Veer'
 
 import unittest
+from typing import Optional
 
+from PyQt5.QtWidgets import QWidget
 from qgis.core import QgsApplication, QgsVectorLayer
 
-from namari_dockwidget import NamariDockWidget
-
-app = QgsApplication(argv=[], GUIenabled=True)
-app.initQgis()
+QgsApplication.setPrefixPath('/QGIS/build/output', True)
 
 
 class NamariDockWidgetTest(unittest.TestCase):
-    def setUp(self) -> None:
-        """Runs before each test."""
-        self.dock_widget = NamariDockWidget()
+    app: QgsApplication = QgsApplication(argv=[], GUIenabled=True)
+    dock_widget: Optional[QWidget] = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        print('prefixpath:', QgsApplication.prefixPath())
+        cls.app.initQgis()
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.app.exitQgis()
 
     def test_dockwidget_layer_selector(self) -> None:
+        assert self.dock_widget is not None
         with self.subTest('When we start the widget, there is no layer set'):
             self.assertTrue(self.dock_widget.isEnabled())
 
@@ -47,8 +55,9 @@ class NamariDockWidgetTest(unittest.TestCase):
             self.assertEqual(len(layer.fields()), 10)
 
             # Load the vector layer
-            self.dock_widget.iface.addMapLayer(layer)
+            self.app.addMapLayer(layer)
 
         with self.subTest('Then the build button is enabled'):
+            assert self.dock_widget is not None
             enabled = self.dock_widget.pushButtonBuildModel.isEnabled()
             self.assertTrue(enabled)

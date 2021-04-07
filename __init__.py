@@ -26,7 +26,7 @@
 
 from qgis.gui import QgisInterface
 
-from .namari import Namari
+from .namari_plugin import Namari
 
 
 def classFactory(iface: QgisInterface) -> Namari:

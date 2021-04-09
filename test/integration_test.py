@@ -1,9 +1,13 @@
-import pyplugin_installer
+from qgis import utils
+from namari import classFactory
 
 
 def run_all() -> None:
     print('Hello QGIS!')
-    plugins = pyplugin_installer.installer_data.plugins.all().keys()
+
+    plugins = utils.plugins
+    plugins['namari'] = classFactory(utils.iface)
     print(plugins)
+
     print('OK')
     print('Ran')

@@ -21,13 +21,11 @@ RUN flake8 .
 # Run the more simple unit tests
 RUN python3 -m unittest discover .
 
+ENV PLUGIN_DIR=/QGIS/build/output/python/plugins
+
 # Deploy plugin to standard plugins dir
-RUN pb_tool deploy --config_file pb_tool_docker.cfg --plugin_path /QGIS/build/output/python/plugins --no-confirm
-RUN ls /QGIS/build/output/python/plugins
-RUN pb_tool deploy --config_file pb_tool_docker.cfg --plugin_path /QGIS/build/output/python/plugins --no-confirm
-RUN ls /QGIS/build/output/python/plugins
+RUN pb_tool deploy --config_file pb_tool_docker.cfg --plugin_path $PLUGIN_DIR --no-confirm
 
 # Run the integration tests by using the test script
-WORKDIR test
-ENV PYTHONPATH=$PYTHONPATH:/namari:/QGIS/build/output/python/plugins
+ENV PYTHONPATH=$PYTHONPATH:/namari/test:$PLUGIN_DIR
 RUN xvfb-run qgis_testrunner.sh integration_test

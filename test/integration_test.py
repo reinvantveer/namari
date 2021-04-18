@@ -14,6 +14,8 @@ __copyright__ = 'Copyright 2021, Rein van \'t Veer'
 
 import unittest
 
+from PyQt5.QtCore import Qt
+from PyQt5.QtTest import QTest
 from qgis import utils
 
 from namari import classFactory
@@ -60,8 +62,12 @@ class NamariDockWidgetTest(unittest.TestCase):
             enabled = self.namari.dockwidget.pushButtonBuildModel.isEnabled()
             self.assertTrue(enabled)
 
+        with self.subTest('We can execute the model building'):
+            QTest.mouseClick(
+                self.namari.dockwidget.pushButtonBuildModel,
+                Qt.LeftButton)
+
 
 def run_all() -> None:
-    loader = unittest.TestLoader()
-    suite = loader.loadTestsFromTestCase(NamariDockWidgetTest)
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    suite = unittest.TestLoader().loadTestsFromTestCase(NamariDockWidgetTest)
+    assert unittest.TextTestRunner(verbosity=2).run(suite).wasSuccessful()

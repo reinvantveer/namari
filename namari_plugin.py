@@ -24,14 +24,14 @@
 import os.path
 from typing import List
 
-from qgis.PyQt.QtCore import QCoreApplication, Qt, QVariant
+from qgis.PyQt.QtCore import QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QPushButton
 from qgis.core import QgsMapLayerProxyModel, QgsVectorLayer
 from qgis.gui import QgisInterface
-from sklearn.feature_extraction import DictVectorizer
 
 # Import the code for the DockWidget
+from models.feature_extraction import get_inputs_from_layer
 from .messaging.dependencies import report_missing_dependency
 from .namari_dockwidget import NamariDockWidget
 from .resources import qInitResources
@@ -186,27 +186,6 @@ class Namari:
         print("Building model")
         assert self.dockwidget is not None    # To please the type checker
         layer: QgsVectorLayer = self.dockwidget.mMapLayerComboBox.currentLayer()
-        features = layer.getFeatures()
-        field_names = [f.name() for f in layer.fields()]
-        vectorizer = DictVectorizer()
-
-        print(field_names)
-
-        feat_dicts = self.features_to_dicts(features, field_names)
-        print(feat_dicts[0])
-
-        inputs = vectorizer.fit_transform(feat_dicts[:100])
+        inputs = get_inputs_from_layer(layer=layer)
 
         print(f'inputs shape: {inputs.shape}')
-
-    def features_to_dicts(self, features, field_names):
-        feat_dicts = []
-
-        for f in features:
-            if f.isValid():
-                if QVariant in [type(d) for d in f]:
-                    continue
-                feat_dict = {field: f.attribute(field) for field in field_names}
-                feat_dicts.append(feat_dict)
-
-        return feat_dicts

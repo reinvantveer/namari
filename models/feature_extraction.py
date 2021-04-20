@@ -1,7 +1,8 @@
 from typing import List
 
 from PyQt5.QtCore import QVariant
-from qgis.core import QgsVectorLayer
+from qgis.PyQt.QtCore import NULL
+from qgis.core import QgsFeature, QgsVectorLayer
 from sklearn.feature_extraction import DictVectorizer
 
 
@@ -16,9 +17,10 @@ def get_inputs_from_layer(layer: QgsVectorLayer):
 
 
 def features_to_dicts(layer: QgsVectorLayer):
-    features = layer.getFeatures()
+    features: List[QgsFeature] = layer.getFeatures()
     field_names = [f.name() for f in layer.fields()]
-    print(field_names)
+    field_types = [f.typeName() for f in layer.fields()]
+    print(list(zip(field_names, field_types)))
 
     feat_dicts: List[dict] = []
 
@@ -27,9 +29,16 @@ def features_to_dicts(layer: QgsVectorLayer):
             continue
 
         types = [type(d) for d in feature]
+        if NULL in feature.attributes():
+            # print('NULL')
+            continue
+
         if QVariant in types:
             q_variant_idxs = [t_idx for t_idx, t in enumerate(types) if t == QVariant]
-            print(f'Skipped feature {f_idx + 1}: field {field_names[q_variant_idxs[0]]} is Null')
+            null_field_name = field_names[q_variant_idxs[0]]
+            print(f'Skipped feature with fid {feature.id()}: '
+                  f'field {null_field_name} is {feature.attribute(null_field_name)}')
+            assert feature.attribute(null_field_name) == NULL
             continue
 
         feat_dict = {field: feature.attribute(field) for field in field_names}

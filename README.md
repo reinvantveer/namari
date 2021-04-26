@@ -1,5 +1,26 @@
-# namari
-An experiment in QGIS plugin creation
+# Namari anomaly detector for QGIS
+
+A data quality assessment plugin tool for QGIS. Fully automated anomaly or outlier detection over all properties of your
+data.
+
+# Data type support
+Currently supports basically any QGIS data type, but some data is ignored:
+
+| Type | Mapping |
+|---|---|
+| Feature Id | Ignored |
+| Text | One-hot |
+| Int32 | Float |
+| Int64 | Float |
+| Decimal | Float |
+| Date | Seconds since 1970 |
+| DateTime | Seconds since 1970 |
+| Boolean | 0. or 1. |
+| Binary | Ignored |
+
+Note that each unique text value is assigned to its own attribute. This is because one-hot vectors are the conventional
+method for dealing with class-like data. If the text in your data is unique for each record, you'd better keep it out of
+the model builder, otherwise the expansion of the data will probably not result in a good data mapping. 
 
 # Local dev-setup
 This repo uses a combination of pipenv (unit testing) and Docker (integration testing) setups in order to develop and test. Use the following to set up an isolated virtual environment for development:

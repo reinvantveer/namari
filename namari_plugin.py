@@ -31,7 +31,7 @@ from qgis.core import QgsMapLayerProxyModel, QgsVectorLayer
 from qgis.gui import QgisInterface
 
 # Import the code for the DockWidget
-from models.feature_extraction import get_inputs_from_layer
+from models.inputs_extraction import get_inputs_from_layer
 from .messaging.dependencies import report_missing_dependency
 from .namari_dockwidget import NamariDockWidget
 from .resources import qInitResources

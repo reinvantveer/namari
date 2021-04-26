@@ -2,7 +2,7 @@ import unittest
 
 from qgis.core import QgsVectorLayer
 
-from models.feature_extraction import features_to_dicts, get_inputs_from_layer
+from models.inputs_extraction import features_to_dicts, get_inputs_from_layer
 
 
 class TestFeatureExtraction(unittest.TestCase):

@@ -36,12 +36,11 @@ class TestFeatureExtraction(unittest.TestCase):
                     self.assertEqual(nulls[key], value)
 
             with self.subTest('And the binary blob is omitted from the dictionary'):
-                fields = field_names = [f.name() for f in self.layer.fields()]
+                fields = [f.name() for f in self.layer.fields()]
                 self.assertIn('binary_field', fields)
                 self.assertNotIn('binary_field', nulls.keys())
 
             with self.subTest('And the fid is omitted from the dictionary'):
-                fields = field_names = [f.name() for f in self.layer.fields()]
+                fields = [f.name() for f in self.layer.fields()]
                 self.assertIn('fid', fields)
                 self.assertNotIn('fid', nulls.keys())
-

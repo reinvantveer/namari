@@ -1,12 +1,13 @@
 from typing import List
 
-from PyQt5.QtCore import QByteArray
+from PyQt5.QtCore import QByteArray, QDate, QDateTime
 from qgis.PyQt.QtCore import NULL
 from qgis.core import QgsFeature, QgsVectorLayer
+from scipy.sparse import csr_matrix
 from sklearn.feature_extraction import DictVectorizer
 
 
-def get_inputs_from_layer(layer: QgsVectorLayer):
+def get_inputs_from_layer(layer: QgsVectorLayer) -> csr_matrix:
     vectorizer = DictVectorizer()
     feat_dicts = features_to_dicts(layer)
 
@@ -52,6 +53,7 @@ def features_to_dicts(layer: QgsVectorLayer) -> List[dict]:
 
             feat_dict[field_name] = value
 
+            # Map absent values
             if value == NULL:
                 data_type_name = layer.fields().field(field_name).typeName()
 
@@ -73,6 +75,12 @@ def features_to_dicts(layer: QgsVectorLayer) -> List[dict]:
                           f'field {field_name} is {feature.attribute(field_name)}')
                     add_feature = False
                     break
+
+            # Map date values to unixy seconds since 1970-01-01T00:00:00.000
+            if type(value) == QDate:
+                feat_dict[field_name] = QDateTime(value).toSecsSinceEpoch()
+            elif type(value) == QDateTime:
+                feat_dict[field_name] = value.toSecsSinceEpoch()
 
         if add_feature:
             feat_dicts.append(feat_dict)

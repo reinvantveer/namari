@@ -31,6 +31,7 @@ from qgis.core import QgsMapLayerProxyModel, QgsVectorLayer
 from qgis.gui import QgisInterface
 
 # Import the code for the DockWidget
+from models.anomaly_model import train
 from models.inputs_extraction import get_inputs_from_layer
 from .messaging.dependencies import report_missing_dependency
 from .namari_dockwidget import NamariDockWidget
@@ -189,3 +190,5 @@ class Namari:
         inputs = get_inputs_from_layer(layer=layer)
 
         print(f'inputs shape: {inputs.shape}')
+        model = train(inputs)
+        print(model.n_estimators)

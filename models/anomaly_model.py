@@ -1,12 +1,15 @@
+from typing import Tuple
+
 from scipy.sparse import csr_matrix
 from sklearn.ensemble import IsolationForest
 
 
-def train(inputs: csr_matrix,
-          n_estimators: int = 100,  # Use scikit-learn default
-          ) -> IsolationForest:
+def train_predict(inputs: csr_matrix,
+                  n_estimators: int = 100,  # Use scikit-learn default
+                  ) -> Tuple[IsolationForest, csr_matrix]:
     """
-    Builds the anomaly detector model based on the inputs passed from the invocation.
+    Builds the anomaly detector model based on the inputs passed from the invocation. Returns the outlier predictions
+    as well.
 
     :param inputs:          A csr_matrix, preferably produced by the inputs_extraction.get_inputs_from_layer function.
                             That function will automatically produce a csr_matrix from a QGIS vector layer.
@@ -22,8 +25,10 @@ def train(inputs: csr_matrix,
         max_features=1.,
         bootstrap=False,
         n_jobs=-1,  # Use all available CPUs
-        verbose=2,  # Be more verbose
+        verbose=1,  # show completions in parallel job
     )
 
-    classifier.fit(inputs)
-    return classifier
+    outputs = classifier.fit_predict(inputs)
+    print('Training succeeded')
+
+    return classifier, outputs

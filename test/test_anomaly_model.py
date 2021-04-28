@@ -13,4 +13,4 @@ class TestAnomalyModel(unittest.TestCase):
     def test_train_predict(self) -> None:
         inputs = inputs_from_layer(self.layer)
         model, outputs = train_predict(inputs)
-        self.assertEqual(len(outputs), 2)
+        self.assertEqual(outputs.shape, (2,))

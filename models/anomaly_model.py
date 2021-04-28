@@ -1,12 +1,13 @@
 from typing import Tuple
 
+from numpy import ndarray
 from scipy.sparse import csr_matrix
 from sklearn.ensemble import IsolationForest
 
 
 def train_predict(inputs: csr_matrix,
                   n_estimators: int = 100,  # Use scikit-learn default
-                  ) -> Tuple[IsolationForest, csr_matrix]:
+                  ) -> Tuple[IsolationForest, ndarray]:
     """
     Builds the anomaly detector model based on the inputs passed from the invocation. Returns the outlier predictions
     as well.
@@ -15,7 +16,7 @@ def train_predict(inputs: csr_matrix,
                             That function will automatically produce a csr_matrix from a QGIS vector layer.
     :param n_estimators:    The number of base estimators in the ensemble
 
-    :return: None
+    :return: A tuple containing the trained model and the anomaly classifications
     """
 
     classifier = IsolationForest(
@@ -29,6 +30,5 @@ def train_predict(inputs: csr_matrix,
     )
 
     outputs = classifier.fit_predict(inputs)
-    print('Training succeeded')
 
     return classifier, outputs

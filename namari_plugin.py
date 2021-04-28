@@ -27,12 +27,13 @@ from typing import List
 from qgis.PyQt.QtCore import QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QPushButton
-from qgis.core import QgsMapLayerProxyModel, QgsVectorLayer
+from qgis.core import QgsMapLayerProxyModel, QgsVectorLayer, QgsProject
 from qgis.gui import QgisInterface
 
 # Import the code for the DockWidget
 from models.anomaly_model import train_predict
 from models.inputs_extraction import inputs_from_layer
+from output_visualization.output_layer import create_output_layer
 from .messaging.dependencies import report_missing_dependency
 from .namari_dockwidget import NamariDockWidget
 from .resources import qInitResources
@@ -169,18 +170,18 @@ class Namari:
 
     def layerChanged(self) -> None:
         assert self.dockwidget is not None  # To please the type checker
-        layer: QgsVectorLayer = self.dockwidget.mMapLayerComboBox.currentLayer()
+        current_layer: QgsVectorLayer = self.dockwidget.mMapLayerComboBox.currentLayer()
         build_button: QPushButton = self.dockwidget.pushButtonBuildModel
 
-        if layer is not None:
-            feature_counter = layer.countSymbolFeatures()
+        if current_layer is not None:
+            feature_counter = current_layer.countSymbolFeatures()
 
             # When the features have already been counted, the feature counter will be None
             # See https://qgis.org/pyqgis/master/core/QgsVectorLayer.html#qgis.core.QgsVectorLayer.countSymbolFeatures
             if feature_counter is not None:
                 feature_counter.waitForFinished()
 
-            build_button.setText(f'Build model ({layer.featureCount()} features)')
+            build_button.setText(f'Build model ({current_layer.featureCount()} features)')
             build_button.setEnabled(True)
 
     def buildModel(self) -> None:
@@ -191,4 +192,9 @@ class Namari:
 
         print(f'inputs shape: {inputs.shape}')
         model, outputs = train_predict(inputs)
-        print(model)
+        anomalies = [o for o in outputs.tolist() if o == -1]
+        print(f'{len(anomalies)} anomalies')
+
+        # Add a memory vector layer to store and visualize the output
+        output_layer = create_output_layer(layer, outputs)
+        QgsProject.instance().addMapLayer(output_layer)

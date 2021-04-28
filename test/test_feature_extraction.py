@@ -2,7 +2,7 @@ import unittest
 
 from qgis.core import QgsVectorLayer
 
-from models.inputs_extraction import features_to_dicts, get_inputs_from_layer
+from models.inputs_extraction import features_to_dicts, inputs_from_layer
 
 
 class TestFeatureExtraction(unittest.TestCase):
@@ -12,18 +12,14 @@ class TestFeatureExtraction(unittest.TestCase):
             'field_test',
             'ogr'
         )
-        self.layer.startEditing()
-
-    def tearDown(self) -> None:
-        self.layer.rollBack()
 
     def test_remap_null_values(self) -> None:
         with self.subTest('When we convert the features to dictionaries of cleaned values'):
-            inputs = features_to_dicts(self.layer)
-            nulls = inputs[0]
+            dicts = features_to_dicts(self.layer)
+            nulls = dicts[0]
 
             with self.subTest('then we get some inputs returned'):
-                self.assertGreater(len(inputs), 0)
+                self.assertGreater(len(dicts), 0)
 
             expected_values = {
                 'text_field': '',
@@ -56,5 +52,5 @@ class TestFeatureExtraction(unittest.TestCase):
                 self.assertEqual(len(dicts), 2)
 
             with self.subTest('And we can pass the dicts to the DictVectorizer to return 2 data instances'):
-                inputs = get_inputs_from_layer(self.layer)
+                inputs = inputs_from_layer(self.layer)
                 self.assertEqual(inputs.shape[0], 2)

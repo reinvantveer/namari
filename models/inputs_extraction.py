@@ -7,13 +7,19 @@ from scipy.sparse import csr_matrix
 from sklearn.feature_extraction import DictVectorizer
 
 
-def get_inputs_from_layer(layer: QgsVectorLayer) -> csr_matrix:
+def inputs_from_layer(layer: QgsVectorLayer) -> csr_matrix:
+    """
+    Converts all features from a vector layer to a SciPy sparse matrix.
+
+    :param layer: a QGIS vector layer
+
+    :return: a SciPy sparse matrix
+    """
+
     vectorizer = DictVectorizer()
     feat_dicts = features_to_dicts(layer)
-
-    print(len(feat_dicts), 'features')
-
     inputs = vectorizer.fit_transform(feat_dicts)
+
     return inputs
 
 
@@ -34,7 +40,7 @@ def features_to_dicts(layer: QgsVectorLayer) -> List[dict]:
 
     feat_dicts: List[dict] = []
 
-    for f_idx, feature in enumerate(features):
+    for feature in features:
         if not feature.isValid():
             print(f'Skipped invalid feature with fid {feature.id()}')
             continue

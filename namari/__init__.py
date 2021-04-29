@@ -39,10 +39,10 @@ def classFactory(iface: QgisInterface) -> Optional[Any]:
     :return: The plugin instantiated against the QGIS interface
     """
     try:
-        import sklearn
+        import sklearn  # noqa: F401
     except ImportError:
         report_missing_dependency('scikit-learn')
 
-    # Do a local import: otherwise scikit-learn will give an import error before we can report installation instructions
+    # Do a local import: otherwise scikit-learn throws an import error before we can report installation instructions
     from .namari_plugin import Namari
     return Namari(iface)

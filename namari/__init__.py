@@ -23,6 +23,7 @@
  This script initializes the plugin, making it known to QGIS.
 """
 import configparser
+import os
 from importlib import import_module
 from typing import Optional
 
@@ -41,19 +42,17 @@ def classFactory(iface: QgisInterface) -> Optional[Namari]:
 
     :return: The plugin instantiated against the QGIS interface
     """
-    parser = configparser.ConfigParser()
-    parser.optionxform = str
-    parser.read('metadata.txt')
+    config = configparser.ConfigParser()
+    file_path = os.path.join(os.path.dirname(__file__), 'metadata.txt')
+    config.read(file_path)
 
-    general_metadata = dict(parser.items('general'))
-
-    dependencies = general_metadata['plugin_dependencies'].split(',')
+    dependencies = config['general']['plugin_dependencies'].split(',')
     dependencies = [d.strip() for d in dependencies]
 
     for package in dependencies:
         try:
             import_module(package)
-        except ImportError:
+        except ModuleNotFoundError:
             report_missing_dependency(package)
             return None
 

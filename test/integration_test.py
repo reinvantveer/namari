@@ -16,6 +16,7 @@ import unittest
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtTest import QTest
+from PyQt5.QtWidgets import QLineEdit
 from qgis import utils
 
 from namari import classFactory
@@ -61,6 +62,11 @@ class NamariDockWidgetTest(unittest.TestCase):
         with self.subTest('Then the build button is enabled'):
             enabled = self.namari.dockwidget.pushButtonBuildModel.isEnabled()
             self.assertTrue(enabled)
+
+        with self.subTest('We can tweak the number of estimators'):
+            num_estimators_input: QLineEdit = self.namari.dockwidget.lineEditNumEstimators
+            num_estimators_input.setText('1')
+            self.assertEqual(num_estimators_input.text(), '1')
 
         with self.subTest('We can execute the model building'):
             QTest.mouseClick(

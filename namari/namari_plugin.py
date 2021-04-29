@@ -24,6 +24,7 @@
 import os.path
 from typing import List, Optional
 
+from PyQt5.QtWidgets import QLineEdit
 from qgis.PyQt.QtCore import QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QPushButton
@@ -181,9 +182,12 @@ class Namari:
         assert self.dockwidget is not None    # To please the type checker
         layer: QgsVectorLayer = self.dockwidget.mMapLayerComboBox.currentLayer()
         inputs = inputs_from_layer(layer=layer)
-
         print(f'inputs shape: {inputs.shape}')
-        model, outputs = train_predict(inputs)
+
+        num_estimators_input: QLineEdit = self.dockwidget.lineEditNumEstimators
+        num_estimators = int(num_estimators_input.text())
+        model, outputs = train_predict(inputs, num_estimators)
+
         anomalies = [o for o in outputs.tolist() if o == -1]
         print(f'{len(anomalies)} anomalies')
 

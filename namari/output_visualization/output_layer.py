@@ -1,14 +1,23 @@
-from PyQt5.QtCore import QVariant
+from typing import List
+
 from numpy import ndarray
-from qgis.core import QgsVectorLayer, QgsWkbTypes, QgsCoordinateReferenceSystem, QgsField
+from qgis.core import QgsVectorLayer, QgsWkbTypes, QgsCoordinateReferenceSystem
 
 
-def create_output_layer(input_layer: QgsVectorLayer, outputs: ndarray) -> QgsVectorLayer:
+def get_anomalous_fids(fids: List[int], outputs: ndarray):
+    output_list = outputs.tolist()
+    output_with_ids = [{'fid': f, 'class': o} for (o, f) in zip(output_list, fids)]
+    anomalies = [o['fid'] for o in output_with_ids if o['class'] == -1]
+
+    return anomalies
+
+
+def create_output_layer(input_layer: QgsVectorLayer, anomalies: List[int]) -> QgsVectorLayer:
     """
     Creates an output layer based on the input layer that the anomaly detector was trained on.
 
     :param input_layer: The QGIS vector layer used as input for the anomaly detection model
-    :param outputs:     The anomaly detector classification outputs for the layer
+    :param anomalies:   The anomalous feature ids of the layer
 
     :return: A QGIS memory/temporary layer containing the anomaly classifications as a map layer to be added to QGIS
     """
@@ -20,16 +29,19 @@ def create_output_layer(input_layer: QgsVectorLayer, outputs: ndarray) -> QgsVec
     geom_type_number = int(input_layer.wkbType())
     geom_type_name = QgsWkbTypes.displayString(geom_type_number)
 
-    # EPSG code for output layer
+    # Copy the EPSG code for output layer
     crs: QgsCoordinateReferenceSystem = input_layer.crs()
     crs_name = crs.authid()
 
-    # The layer definition
+    # The layer definition template
     layer_def = f'{geom_type_name}?crs={crs_name}'
 
     anomaly_output_layer = QgsVectorLayer(layer_def, output_layer_name, 'memory')
 
-    is_anomaly_field = QgsField('is_anomaly', QVariant.Bool)
-    anomaly_output_layer.addAttribute(is_anomaly_field)
+    for field in input_layer.fields():
+        anomaly_output_layer.addAttribute(field)
+
+    anomalous_features = input_layer.getFeatures(anomalies)
+    anomaly_output_layer.addFeatures(anomalous_features)
 
     return anomaly_output_layer

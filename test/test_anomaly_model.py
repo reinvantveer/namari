@@ -11,6 +11,6 @@ class TestAnomalyModel(unittest.TestCase):
         self.layer = QgsVectorLayer('test/data/field_test.gpkg', 'field_test', 'ogr')
 
     def test_train_predict(self) -> None:
-        inputs = inputs_from_layer(self.layer)
+        inputs, fids = inputs_from_layer(self.layer)
         model, outputs = train_predict(inputs)
         self.assertEqual(outputs.shape, (2,))

@@ -1,4 +1,4 @@
-from typing import List, Optional, Union, Dict
+from typing import List, Optional, Union, Dict, Tuple
 
 from qgis.PyQt.QtCore import NULL, QDate, QDateTime
 from qgis.core import QgsVectorLayer, QgsFeature
@@ -7,7 +7,7 @@ from scipy.sparse import csr_matrix
 from sklearn.feature_extraction import DictVectorizer
 
 
-def inputs_from_layer(layer: QgsVectorLayer) -> csr_matrix:
+def inputs_from_layer(layer: QgsVectorLayer) -> Tuple[csr_matrix, List[int]]:
     """
     Converts all features from a vector layer to a SciPy sparse matrix.
 
@@ -17,13 +17,13 @@ def inputs_from_layer(layer: QgsVectorLayer) -> csr_matrix:
     """
 
     vectorizer = DictVectorizer()
-    feat_dicts = features_to_dicts(layer)
+    feat_dicts, fids = features_to_dicts(layer)
     inputs = vectorizer.fit_transform(feat_dicts)
 
-    return inputs
+    return inputs, fids
 
 
-def features_to_dicts(layer: QgsVectorLayer) -> List[dict]:
+def features_to_dicts(layer: QgsVectorLayer) -> Tuple[List[dict], List[int]]:
     """
     Converts features from a QGIS layer to data dictionaries that can be interpreted by the DictVectorizer of
     scikit-learn.
@@ -39,17 +39,20 @@ def features_to_dicts(layer: QgsVectorLayer) -> List[dict]:
     print(list(zip(field_names, field_types)))
 
     feat_dicts: List[dict] = []
+    fids: List[int] = []
 
     for feature in features:
-        feat_dict = feature_to_dict(feature, field_names)
+        result_tuple = feature_to_dict(feature, field_names)
 
-        if feat_dict is not None:
+        if result_tuple is not None:
+            feat_dict, fid = result_tuple  # Unpack the tuple
             feat_dicts.append(feat_dict)
+            fids.append(fid)
 
-    return feat_dicts
+    return feat_dicts, fids
 
 
-def feature_to_dict(feature: QgsFeature, field_names: List[str]) -> Optional[dict]:
+def feature_to_dict(feature: QgsFeature, field_names: List[str]) -> Optional[Tuple[dict, int]]:
     if not feature.isValid():
         print(f'Skipped invalid feature with fid {feature.id()}')
         return None
@@ -82,7 +85,7 @@ def feature_to_dict(feature: QgsFeature, field_names: List[str]) -> Optional[dic
         elif type(value) == QDateTime:
             feat_dict[field_name] = value.toSecsSinceEpoch()
 
-    return feat_dict
+    return feat_dict, feature.id()
 
 
 def map_null_value(data_type_name) -> Optional[Union[str, int, float]]:

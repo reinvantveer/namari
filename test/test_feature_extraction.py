@@ -11,7 +11,7 @@ class TestFeatureExtraction(unittest.TestCase):
 
     def test_remap_null_values(self) -> None:
         with self.subTest('When we convert the features to dictionaries of cleaned values'):
-            dicts = features_to_dicts(self.layer)
+            dicts, fids = features_to_dicts(self.layer)
             nulls = dicts[0]
 
             with self.subTest('then we get some inputs returned'):
@@ -48,5 +48,5 @@ class TestFeatureExtraction(unittest.TestCase):
                 self.assertEqual(len(dicts), 2)
 
             with self.subTest('And we can pass the dicts to the DictVectorizer to return 2 data instances'):
-                inputs = inputs_from_layer(self.layer)
+                inputs, fids = inputs_from_layer(self.layer)
                 self.assertEqual(inputs.shape[0], 2)

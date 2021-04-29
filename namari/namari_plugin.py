@@ -34,7 +34,7 @@ from qgis.gui import QgisInterface
 # Import the code for the DockWidget
 from .models.anomaly_model import train_predict
 from .models.inputs_extraction import inputs_from_layer
-from .output_visualization.output_layer import create_output_layer
+from .output_visualization.output_layer import create_output_layer, get_anomalous_fids
 from .namari_dockwidget import NamariDockWidget
 from .resources import qInitResources
 
@@ -181,16 +181,16 @@ class Namari:
         print("Building model")
         assert self.dockwidget is not None    # To please the type checker
         layer: QgsVectorLayer = self.dockwidget.mMapLayerComboBox.currentLayer()
-        inputs = inputs_from_layer(layer=layer)
+        inputs, fids = inputs_from_layer(layer=layer)
         print(f'inputs shape: {inputs.shape}')
 
         num_estimators_input: QLineEdit = self.dockwidget.lineEditNumEstimators
         num_estimators = int(num_estimators_input.text())
         model, outputs = train_predict(inputs, num_estimators)
 
-        anomalies = [o for o in outputs.tolist() if o == -1]
+        anomalies = get_anomalous_fids(fids, outputs)
         print(f'{len(anomalies)} anomalies')
 
         # Add a memory vector layer to store and visualize the output
-        output_layer = create_output_layer(layer, outputs)
+        output_layer = create_output_layer(layer, anomalies)
         QgsProject.instance().addMapLayer(output_layer)

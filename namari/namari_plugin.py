@@ -22,7 +22,7 @@
  ***************************************************************************/
 """
 import os.path
-from typing import List
+from typing import List, Optional
 
 from qgis.PyQt.QtCore import QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
@@ -31,10 +31,9 @@ from qgis.core import QgsMapLayerProxyModel, QgsVectorLayer, QgsProject
 from qgis.gui import QgisInterface
 
 # Import the code for the DockWidget
-from models.anomaly_model import train_predict
-from models.inputs_extraction import inputs_from_layer
-from output_visualization.output_layer import create_output_layer
-from .messaging.dependencies import report_missing_dependency
+from .models.anomaly_model import train_predict
+from .models.inputs_extraction import inputs_from_layer
+from .output_visualization.output_layer import create_output_layer
 from .namari_dockwidget import NamariDockWidget
 from .resources import qInitResources
 
@@ -65,7 +64,7 @@ class Namari:
         self.toolbar.setObjectName(u'Namari')
 
         self.pluginIsActive = False
-        self.dockwidget = None
+        self.dockwidget: Optional[NamariDockWidget] = None
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message: str) -> str:

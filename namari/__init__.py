@@ -22,18 +22,14 @@
  ***************************************************************************/
  This script initializes the plugin, making it known to QGIS.
 """
-import configparser
-import os
-from importlib import import_module
-from typing import Optional
+from typing import Optional, Any
 
 from qgis.gui import QgisInterface
 
 from .messaging.dependencies import report_missing_dependency
-from .namari_plugin import Namari
 
 
-def classFactory(iface: QgisInterface) -> Optional[Namari]:
+def classFactory(iface: QgisInterface) -> Optional[Any]:
     """
     Factory function for returning a Namari class instance from the Namari module: initializes the plugin.
     It will only return the full plugin if all the dependencies specified in the metadata.txt can be imported.
@@ -42,18 +38,11 @@ def classFactory(iface: QgisInterface) -> Optional[Namari]:
 
     :return: The plugin instantiated against the QGIS interface
     """
-    config = configparser.ConfigParser()
-    file_path = os.path.join(os.path.dirname(__file__), 'metadata.txt')
-    config.read(file_path)
+    try:
+        import sklearn
+    except ImportError:
+        report_missing_dependency('scikit-learn')
 
-    dependencies = config['general']['plugin_dependencies'].split(',')
-    dependencies = [d.strip() for d in dependencies]
-
-    for package in dependencies:
-        try:
-            import_module(package)
-        except ModuleNotFoundError:
-            report_missing_dependency(package)
-            return None
-
+    # Do a local import: otherwise scikit-learn will give an import error before we can report installation instructions
+    from .namari_plugin import Namari
     return Namari(iface)

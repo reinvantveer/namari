@@ -14,7 +14,7 @@ def report_missing_dependency(dependency_name: str) -> None:
     python_location = sys.executable
     dir_path = os.path.dirname(os.path.realpath(__file__))
     config = configparser.ConfigParser()
-    config.read(os.path.join(dir_path, 'metadata.txt'))
+    config.read(os.path.join(dir_path, '..', 'metadata.txt'))
     dependencies = config['general']['plugin_dependencies']
 
     msg = QMessageBox()

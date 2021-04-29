@@ -128,13 +128,6 @@ class Namari:
 
     def run(self) -> None:
         """Run method that loads and starts the plugin"""
-        # First, try to load the machine learning dependency
-        try:
-            # import sklearn
-            pass
-        except ImportError:
-            report_missing_dependency()
-            return
 
         if not self.pluginIsActive:
             self.pluginIsActive = True

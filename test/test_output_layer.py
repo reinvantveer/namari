@@ -2,9 +2,9 @@ import unittest
 
 from qgis.core import QgsVectorLayer, QgsWkbTypes
 
-from models.anomaly_model import train_predict
-from models.inputs_extraction import inputs_from_layer
-from output_visualization.output_layer import create_output_layer
+from namari.models.anomaly_model import train_predict
+from namari.models.inputs_extraction import inputs_from_layer
+from namari.output_visualization.output_layer import create_output_layer
 
 
 class TestOutputLayer(unittest.TestCase):

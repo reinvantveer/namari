@@ -2,8 +2,8 @@ import unittest
 
 from qgis.core import QgsVectorLayer
 
-from models.anomaly_model import train_predict
-from models.inputs_extraction import inputs_from_layer
+from namari.models.anomaly_model import train_predict
+from namari.models.inputs_extraction import inputs_from_layer
 
 
 class TestAnomalyModel(unittest.TestCase):

@@ -1,7 +1,6 @@
 # coding=utf-8
 """Tests QGIS plugin init."""
 
-import os
 import unittest
 import logging
 import configparser
@@ -35,9 +34,7 @@ class TestInit(unittest.TestCase):
             'email',
             'author']
 
-        file_path = os.path.abspath(os.path.join(
-            os.path.dirname(__file__), os.pardir,
-            'metadata.txt'))
+        file_path = 'namari/metadata.txt'
         LOGGER.info(file_path)
         metadata = []
         parser = configparser.ConfigParser()
@@ -52,7 +49,3 @@ class TestInit(unittest.TestCase):
                 expectation, file_path))
 
             self.assertIn(expectation, dict(metadata), message)
-
-
-if __name__ == '__main__':
-    unittest.main()

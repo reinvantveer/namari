@@ -22,18 +22,27 @@
  ***************************************************************************/
  This script initializes the plugin, making it known to QGIS.
 """
-
+from typing import Optional, Any
 
 from qgis.gui import QgisInterface
 
-from .namari_plugin import Namari
+from .messaging.dependencies import report_missing_dependency
 
 
-def classFactory(iface: QgisInterface) -> Namari:
+def classFactory(iface: QgisInterface) -> Optional[Any]:
     """
     Factory function for returning a Namari class instance from the Namari module: initializes the plugin.
+    It will only return the full plugin if all the dependencies specified in the metadata.txt can be imported.
 
     :param iface: A QGIS interface instance.
-    """
 
+    :return: The plugin instantiated against the QGIS interface
+    """
+    try:
+        import sklearn  # noqa: F401
+    except ImportError:
+        report_missing_dependency('scikit-learn')
+
+    # Do a local import: otherwise scikit-learn throws an import error before we can report installation instructions
+    from .namari_plugin import Namari
     return Namari(iface)

@@ -15,7 +15,7 @@ RUN grep -v plugin_path pb_tool.cfg > pb_tool_docker.cfg
 RUN cat pb_tool_docker.cfg
 
 # Run type and code style checks
-RUN mypy --namespace-packages --explicit-package-bases .
+RUN mypy .
 RUN flake8 .
 
 # Run the more simple unit tests
@@ -24,7 +24,7 @@ RUN python3 -m unittest discover .
 ENV PLUGIN_DIR=/QGIS/build/output/python/plugins
 
 # Deploy plugin to standard plugins dir
-RUN pb_tool deploy --config_file pb_tool_docker.cfg --plugin_path $PLUGIN_DIR --no-confirm
+RUN cd namari && pb_tool deploy --config_file ../pb_tool_docker.cfg --plugin_path $PLUGIN_DIR --no-confirm
 
 # Run the integration tests by using the test script
 ENV PYTHONPATH=$PYTHONPATH:/namari/test:$PLUGIN_DIR

@@ -15,7 +15,7 @@ class TestFeatureExtraction(unittest.TestCase):
             nulls = dicts[0]
 
             with self.subTest('then we get some inputs returned'):
-                self.assertGreater(len(dicts), 0)
+                self.assertEqual(len(dicts), 2)
 
             expected_values = {
                 'text_field': '',
@@ -24,11 +24,11 @@ class TestFeatureExtraction(unittest.TestCase):
                 'decimal_field': 0.,
                 'date_field': 0,
                 'datetime_field': 0,
-                'boolean_field': 1
+                'boolean_field': -1
             }
 
             for key, value in expected_values.items():
-                with self.subTest(f'And the empty values in {key }from the test data are converted to zeros'):
+                with self.subTest(f'And the empty values in {key} from the test data are converted to {value}'):
                     self.assertEqual(nulls[key], value)
 
             with self.subTest('And the binary blob is omitted from the dictionary'):

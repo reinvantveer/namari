@@ -22,18 +22,39 @@
  ***************************************************************************/
  This script initializes the plugin, making it known to QGIS.
 """
-
+import configparser
+from importlib import import_module
+from typing import Optional
 
 from qgis.gui import QgisInterface
 
+from .messaging.dependencies import report_missing_dependency
 from .namari_plugin import Namari
 
 
-def classFactory(iface: QgisInterface) -> Namari:
+def classFactory(iface: QgisInterface) -> Optional[Namari]:
     """
     Factory function for returning a Namari class instance from the Namari module: initializes the plugin.
+    It will only return the full plugin if all the dependencies specified in the metadata.txt can be imported.
 
     :param iface: A QGIS interface instance.
+
+    :return: The plugin instantiated against the QGIS interface
     """
+    parser = configparser.ConfigParser()
+    parser.optionxform = str
+    parser.read('metadata.txt')
+
+    general_metadata = dict(parser.items('general'))
+
+    dependencies = general_metadata['plugin_dependencies'].split(',')
+    dependencies = [d.strip() for d in dependencies]
+
+    for package in dependencies:
+        try:
+            import_module(package)
+        except ImportError:
+            report_missing_dependency(package)
+            return None
 
     return Namari(iface)

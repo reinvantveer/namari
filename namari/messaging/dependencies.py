@@ -5,7 +5,7 @@ import sys
 from qgis.PyQt.QtWidgets import QMessageBox
 
 
-def report_missing_dependency() -> None:
+def report_missing_dependency(dependency_name: str) -> None:
     """
     Reports that one of the dependencies for the project could not be loaded.
 
@@ -19,7 +19,7 @@ def report_missing_dependency() -> None:
 
     msg = QMessageBox()
     msg.setIcon(QMessageBox.Critical)
-    msg.setText("Unable to load scikit-learn")
+    msg.setText(f'Unable to load {dependency_name}')
     message = 'You can install with:\n\n' + \
               '{}'.format(python_location) + \
               ' -m pip install {}\n\n'.format(dependencies) + \

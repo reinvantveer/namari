@@ -7,11 +7,7 @@ from namari.models.inputs_extraction import features_to_dicts, inputs_from_layer
 
 class TestFeatureExtraction(unittest.TestCase):
     def setUp(self) -> None:
-        self.layer = QgsVectorLayer(
-            'test/data/field_test.gpkg',
-            'field_test',
-            'ogr'
-        )
+        self.layer = QgsVectorLayer('test/data/field_test.gpkg', 'field_test', 'ogr')
 
     def test_remap_null_values(self) -> None:
         with self.subTest('When we convert the features to dictionaries of cleaned values'):

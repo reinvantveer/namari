@@ -1,7 +1,7 @@
 import unittest
 
 import numpy
-from qgis.core import QgsVectorLayer, QgsWkbTypes, QgsVectorLayerFeatureCounter
+from qgis.core import QgsVectorLayer, QgsWkbTypes
 
 from namari.models.inputs_extraction import inputs_from_layer
 from namari.output_visualization.output_layer import create_output_layer, get_anomalous_fids
@@ -26,7 +26,4 @@ class TestOutputLayer(unittest.TestCase):
             self.assertEqual(geom_type_name, "Polygon")
 
             with self.subTest(f'With {len(self.anomalies)} features in it'):
-                counter: QgsVectorLayerFeatureCounter = layer.countSymbolFeatures()
-                if counter is not None:
-                    counter.waitForFinished()
                 self.assertEqual(layer.featureCount(), len(self.anomalies))

@@ -20,7 +20,7 @@ from PyQt5.QtWidgets import QLineEdit
 from qgis import utils
 
 from namari import classFactory
-from qgis.core import QgsProject, QgsVectorLayer
+from qgis.core import QgsProject, QgsVectorLayer, QgsVectorLayerFeatureCounter
 from qgis.gui import QgisInterface
 
 
@@ -72,6 +72,16 @@ class NamariDockWidgetTest(unittest.TestCase):
             QTest.mouseClick(
                 self.namari.dockwidget.pushButtonBuildModel,
                 Qt.LeftButton)
+
+        with self.subTest('It produces a layer with anomalies'):
+            anomalies_layers = QgsProject.instance().mapLayersByName('amersfoort-centre_anomalies')
+            self.assertEqual(len(anomalies_layers), 1)
+
+            with self.subTest('Which has a couple of features in them'):
+                anomalies_layer: QgsVectorLayer = anomalies_layers[0]
+                counter: QgsVectorLayerFeatureCounter = anomalies_layer.countSymbolFeatures()
+                counter.waitForFinished()
+                self.assertGreater(anomalies_layer.featureCount(), 0)
 
 
 def run_all() -> None:

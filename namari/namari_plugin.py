@@ -28,7 +28,7 @@ from PyQt5.QtWidgets import QLineEdit
 from qgis.PyQt.QtCore import QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QPushButton
-from qgis.core import QgsMapLayerProxyModel, QgsVectorLayer, QgsProject
+from qgis.core import QgsMapLayerProxyModel, QgsVectorLayer, QgsProject, QgsVectorLayerFeatureCounter
 from qgis.gui import QgisInterface
 
 # Import the code for the DockWidget
@@ -166,16 +166,18 @@ class Namari:
         current_layer: QgsVectorLayer = self.dockwidget.mMapLayerComboBox.currentLayer()
         build_button: QPushButton = self.dockwidget.pushButtonBuildModel
 
-        if current_layer is not None:
-            feature_counter = current_layer.countSymbolFeatures()
+        if current_layer is None:
+            return
 
-            # When the features have already been counted, the feature counter will be None
-            # See https://qgis.org/pyqgis/master/core/QgsVectorLayer.html#qgis.core.QgsVectorLayer.countSymbolFeatures
-            if feature_counter is not None:
-                feature_counter.waitForFinished()
+        feature_counter: QgsVectorLayerFeatureCounter = current_layer.countSymbolFeatures()
 
-            build_button.setText(f'Build model ({current_layer.featureCount()} features)')
-            build_button.setEnabled(True)
+        # When the features have already been counted, the feature counter will be None
+        # See https://qgis.org/pyqgis/master/core/QgsVectorLayer.html#qgis.core.QgsVectorLayer.countSymbolFeatures
+        if feature_counter is not None:
+            feature_counter.waitForFinished()
+
+        build_button.setText(f'Build model ({current_layer.featureCount()} features)')
+        build_button.setEnabled(True)
 
     def buildModel(self) -> None:
         print("Building model")

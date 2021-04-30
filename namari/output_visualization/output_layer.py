@@ -1,7 +1,7 @@
 from typing import List
 
 from numpy import ndarray
-from qgis.core import QgsVectorLayer, QgsWkbTypes, QgsCoordinateReferenceSystem
+from qgis.core import QgsVectorLayer, QgsWkbTypes, QgsCoordinateReferenceSystem, edit
 
 
 def get_anomalous_fids(fids: List[int], outputs: ndarray):
@@ -36,12 +36,16 @@ def create_output_layer(input_layer: QgsVectorLayer, anomalies: List[int]) -> Qg
     # The layer definition template
     layer_def = f'{geom_type_name}?crs={crs_name}'
 
-    anomaly_output_layer = QgsVectorLayer(layer_def, output_layer_name, 'memory')
+    anomalies_layer = QgsVectorLayer(layer_def, output_layer_name, 'memory')
 
-    for field in input_layer.fields():
-        anomaly_output_layer.addAttribute(field)
+    with edit(anomalies_layer):
+        for field in input_layer.fields():
+            anomalies_layer.addAttribute(field)
 
-    anomalous_features = input_layer.getFeatures(anomalies)
-    anomaly_output_layer.addFeatures(anomalous_features)
+        anomalous_features = input_layer.getFeatures(anomalies)
 
-    return anomaly_output_layer
+        for feature in anomalous_features:
+            succeeded = anomalies_layer.addFeature(feature)
+            assert succeeded, f'Unable to add feature with fid {feature.id()} to layer'
+
+    return anomalies_layer

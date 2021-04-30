@@ -30,4 +30,3 @@ class TestOutputLayer(unittest.TestCase):
                 if counter is not None:
                     counter.waitForFinished()
                 self.assertEqual(layer.featureCount(), len(self.anomalies))
-

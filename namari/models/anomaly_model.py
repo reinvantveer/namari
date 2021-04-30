@@ -29,6 +29,6 @@ def train_predict(inputs: csr_matrix,
         verbose=1,  # show completions in parallel job
     )
 
-    outputs = classifier.fit_predict(inputs)
+    predictions = classifier.fit_predict(inputs)
 
-    return classifier, outputs
+    return classifier, predictions

@@ -1,0 +1,17 @@
+name: Plugin upload
+on:
+  release:
+    types:
+      - released
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run upload script from plugin_builder bootstrap
+        run: |
+          python3 -m pip install pipenv
+          pipenv install --deploy
+          pushd namari && pb_tool zip --config_file ../pb_tool.cfg && popd
+          pipenv run python plugin_upload.py namari/namari.zip --user secrets.OSGEO_USER --password secrets.OSGEO_PASS
